@@ -304,12 +304,9 @@ public class ClientView extends javax.swing.JFrame {
     }//GEN-LAST:event_btnContinueEmailActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
-        int showConfirmDialog = JOptionPane.showConfirmDialog(null, "Você quer apagar o cliente " + this.client.getFirstName() + "?", "Atenção", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-        System.out.println(showConfirmDialog);
-        
-        if(showConfirmDialog == 0){
+        if(JOptionPane.showConfirmDialog(null, "Você quer apagar o cliente " + this.client.getFirstName() + "?", "Atenção", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == 0)
+        {
             try {
-                // deseja apagar
                 this.clientDao.delete(this.client);
                 this.client = null;
                 JOptionPane.showMessageDialog(null, "A conta do cliente foi apagada", "Cliente Apagado", JOptionPane.INFORMATION_MESSAGE);
@@ -332,32 +329,29 @@ public class ClientView extends javax.swing.JFrame {
         }
         
         Client novoCliente = new Client();
-               novoCliente.setFirstName(txtFirstName.getText());
-               novoCliente.setLastName(txtLastName.getText());
-               novoCliente.setBirthdate(data);
-               novoCliente.setDocument(txtDocument.getText());
-               novoCliente.setEmail(txtEmail.getText());
-                   
-        if(this.client == null){
-            try {
+        novoCliente.setFirstName(txtFirstName.getText());
+        novoCliente.setLastName(txtLastName.getText());
+        novoCliente.setBirthdate(data);
+        novoCliente.setDocument(txtDocument.getText());
+        novoCliente.setEmail(txtEmail.getText());
+        
+        try {
+            if(this.client == null)
+            {
                 this.clientDao.create(novoCliente);
-                System.out.println("Novo Cliente cadastrado");
                 JOptionPane.showMessageDialog(null, "A conta do cliente foi criada", "Cliente Cadastrado", JOptionPane.INFORMATION_MESSAGE);
-            } catch (SQLException ex) {
-                Logger.getLogger(ClientView.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
-        else {
-           novoCliente.setId(this.client.getId());
-           
-            try {
+            else
+            {
                 this.clientDao.update(novoCliente);
-                System.out.println("Cliente atualizado");
                 JOptionPane.showMessageDialog(null, "A conta do cliente foi atualizada", "Cliente Atualizado", JOptionPane.INFORMATION_MESSAGE);
-            } catch (SQLException ex) {
-                Logger.getLogger(ClientView.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(ClientView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+                 
     }//GEN-LAST:event_btnAcaoActionPerformed
 
     public static void main(String args[]) {
