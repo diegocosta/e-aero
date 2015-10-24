@@ -34,7 +34,7 @@ public class FlightResumeView extends javax.swing.JFrame {
     private int codigo;
 
     public FlightResumeView(int codigo) {
-        initComponents();
+        
         
         try 
         {
@@ -44,6 +44,8 @@ public class FlightResumeView extends javax.swing.JFrame {
         {
             Logger.getLogger(ClientView.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        initComponents();
         
         this.codigo = codigo;
         

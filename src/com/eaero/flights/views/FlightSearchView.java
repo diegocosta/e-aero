@@ -26,9 +26,10 @@ package com.eaero.flights.views;
 import com.eaero.clients.views.ClientView;
 import com.eaero.flights.Flight;
 import com.eaero.flights.FlightResult;
+import com.eaero.flights.FlightRoutine;
 import com.eaero.flights.models.FlightDAO;
 import com.eaero.flights.models.FlightResultDAO;
-import java.awt.Point;
+import com.eaero.flights.models.FlightRoutineDAO;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
@@ -36,12 +37,8 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
-import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.WindowConstants;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 public class FlightSearchView extends javax.swing.JFrame {
@@ -50,9 +47,11 @@ public class FlightSearchView extends javax.swing.JFrame {
     private FlightDAO flightDAO = new FlightDAO();
     private FlightResult flightResult = new FlightResult();
     private FlightResultDAO flightResultDAO = new FlightResultDAO();
+    public FlightRoutine routine = new FlightRoutine();
+    public FlightRoutineDAO routineDAO = new FlightRoutineDAO();
     
     public FlightSearchView() {
-        initComponents();
+        
         
         try 
         {
@@ -61,6 +60,19 @@ public class FlightSearchView extends javax.swing.JFrame {
         catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) 
         {
             Logger.getLogger(ClientView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        initComponents();
+        
+        vooSelRotina.removeAllItems();
+        
+        try {
+            for(FlightRoutine r : this.routineDAO.read())
+            {
+                vooSelRotina.addItem(r);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(FlightSearchView.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         panelResultado.setVisible(false);
@@ -106,14 +118,15 @@ public class FlightSearchView extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        txtSaida = new javax.swing.JTextField();
         txtOrigem = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JButton();
+        vooSelRotina = new javax.swing.JComboBox();
         panelResultado = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblResultado = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Voos");
 
         jPanel2.setBackground(new java.awt.Color(65, 65, 65));
 
@@ -161,6 +174,8 @@ public class FlightSearchView extends javax.swing.JFrame {
             }
         });
 
+        vooSelRotina.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -177,10 +192,10 @@ public class FlightSearchView extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(1, 1, 1)
-                        .addComponent(txtSaida))
-                    .addComponent(jLabel3))
-                .addGap(18, 18, 18)
+                        .addComponent(jLabel3)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(vooSelRotina, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -197,12 +212,14 @@ public class FlightSearchView extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtDestino, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtOrigem, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtSaida, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(txtOrigem, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 2, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(3, 3, 3)
-                        .addComponent(btnBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(btnBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(vooSelRotina)))
                 .addContainerGap())
         );
 
@@ -267,7 +284,7 @@ public class FlightSearchView extends javax.swing.JFrame {
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         try 
         {
-            ArrayList<FlightResult> resultado = this.flightResultDAO.search(txtOrigem.getText(), txtDestino.getText(), txtSaida.getText());
+            ArrayList<FlightResult> resultado = this.flightResultDAO.search(txtOrigem.getText(), txtDestino.getText(), vooSelRotina.getSelectedItem().toString());
             
             DefaultTableModel tabela = (DefaultTableModel) tblResultado.getModel();
             
@@ -311,6 +328,6 @@ public class FlightSearchView extends javax.swing.JFrame {
     private javax.swing.JTable tblResultado;
     private javax.swing.JTextField txtDestino;
     private javax.swing.JTextField txtOrigem;
-    private javax.swing.JTextField txtSaida;
+    private javax.swing.JComboBox vooSelRotina;
     // End of variables declaration//GEN-END:variables
 }

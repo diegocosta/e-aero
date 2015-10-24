@@ -71,7 +71,6 @@ public class ClientView extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         txtDocument = new javax.swing.JTextField();
         btnAcao = new javax.swing.JButton();
-        btnCancelar = new javax.swing.JButton();
         btnExcluir = new javax.swing.JButton();
         txtEmail = new javax.swing.JTextField();
         btnContinueEmail = new javax.swing.JButton();
@@ -132,8 +131,6 @@ public class ClientView extends javax.swing.JFrame {
             }
         });
 
-        btnCancelar.setText("Cancelar");
-
         btnExcluir.setText("Excluir Cliente");
         btnExcluir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -162,18 +159,17 @@ public class ClientView extends javax.swing.JFrame {
                                 .addComponent(jLabel4)
                                 .addGap(152, 152, 152)
                                 .addComponent(jLabel5)))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(0, 256, Short.MAX_VALUE))
                     .addGroup(panelInformationLayout.createSequentialGroup()
                         .addGroup(panelInformationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtBirthdate, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnAcao, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(panelInformationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtDocument)
                             .addGroup(panelInformationLayout.createSequentialGroup()
-                                .addComponent(btnExcluir, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(txtDocument))))
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(btnExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
         panelInformationLayout.setVerticalGroup(
@@ -196,12 +192,10 @@ public class ClientView extends javax.swing.JFrame {
                     .addComponent(txtBirthdate, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtDocument, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(panelInformationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(panelInformationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnAcao, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(btnExcluir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(panelInformationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAcao, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnExcluir, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE))
+                .addContainerGap(13, Short.MAX_VALUE))
         );
 
         btnContinueEmail.setText("Continuar");
@@ -239,7 +233,7 @@ public class ClientView extends javax.swing.JFrame {
                     .addComponent(btnContinueEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(panelInformation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -384,7 +378,6 @@ public class ClientView extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAcao;
-    private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnContinueEmail;
     private javax.swing.JButton btnExcluir;
     private javax.swing.JLabel jLabel1;
