@@ -24,20 +24,34 @@
 package com.eaero.flights.views;
 
 import com.eaero.clients.views.ClientView;
+import com.eaero.flights.Flight;
+import com.eaero.flights.FlightResult;
+import com.eaero.flights.models.FlightDAO;
+import com.eaero.flights.models.FlightResultDAO;
+import java.awt.Point;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
+import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.WindowConstants;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
 
-/**
- *
- * @author Diego
- */
-public class FlightView extends javax.swing.JFrame {
+public class FlightSearchView extends javax.swing.JFrame {
     
-    public FlightView() {
+    private Flight flight = new Flight();
+    private FlightDAO flightDAO = new FlightDAO();
+    private FlightResult flightResult = new FlightResult();
+    private FlightResultDAO flightResultDAO = new FlightResultDAO();
+    
+    public FlightSearchView() {
         initComponents();
         
         try 
@@ -49,15 +63,35 @@ public class FlightView extends javax.swing.JFrame {
             Logger.getLogger(ClientView.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+        panelResultado.setVisible(false);
         tblResultado.setAutoscrolls(true);
         tblResultado.setModel(new DefaultTableModel(
-            new Object[][] {
-            
-            },
-            new String[]{
-                "Código", "Hora", "Valor", "Avião", "Companhia"
+            new Object[][] {},
+            new String[]{  "Código", "Dia", "Hora", "Origem", "Destino", "Valor", "Avião", "Companhia" }
+            ){
+                @Override
+                public boolean isCellEditable(int i, int i1) {
+                    return false; 
+                }
+
+        });
+        
+
+        tblResultado.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent me) {
+                if (me.getClickCount() == 2) {
+                    int selectedRow = tblResultado.getSelectedRow();
+                    selectedRow = tblResultado.convertRowIndexToModel(selectedRow);
+                    int codigo = Integer.parseInt(tblResultado.getModel().getValueAt(selectedRow, 0).toString());
+                    System.out.println(codigo);
+                    FlightResumeView resume = new FlightResumeView(codigo);
+                    resume.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    resume.setVisible(true);
+                }
             }
-        ));
+        });
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -75,6 +109,7 @@ public class FlightView extends javax.swing.JFrame {
         txtSaida = new javax.swing.JTextField();
         txtOrigem = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JButton();
+        panelResultado = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblResultado = new javax.swing.JTable();
 
@@ -117,9 +152,14 @@ public class FlightView extends javax.swing.JFrame {
 
         jLabel2.setText("Destino");
 
-        jLabel3.setText("Data de Saída");
+        jLabel3.setText("Dias de Saída");
 
         btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -166,6 +206,8 @@ public class FlightView extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        panelResultado.setBorder(javax.swing.BorderFactory.createTitledBorder("Resultado da Busca"));
+
         tblResultado.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -179,6 +221,23 @@ public class FlightView extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tblResultado);
 
+        javax.swing.GroupLayout panelResultadoLayout = new javax.swing.GroupLayout(panelResultado);
+        panelResultado.setLayout(panelResultadoLayout);
+        panelResultadoLayout.setHorizontalGroup(
+            panelResultadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelResultadoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1)
+                .addContainerGap())
+        );
+        panelResultadoLayout.setVerticalGroup(
+            panelResultadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelResultadoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -188,7 +247,7 @@ public class FlightView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(panelResultado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -198,16 +257,43 @@ public class FlightView extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panelResultado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        try 
+        {
+            ArrayList<FlightResult> resultado = this.flightResultDAO.search(txtOrigem.getText(), txtDestino.getText(), txtSaida.getText());
+            
+            DefaultTableModel tabela = (DefaultTableModel) tblResultado.getModel();
+            
+            while(tabela.getRowCount() > 0){
+                tabela.removeRow(0);
+            }
+            
+            for(FlightResult r : resultado){
+                tabela.addRow(new Object[]{
+                    r.getId(), r.getRoutineDay(), r.getHour(), r.getDeparture(), r.getDestination(), r.getCost(), r.getAircraftCode(), r.getCompanyName()
+                });
+            }
+            
+            
+            panelResultado.setVisible(true);
+            
+        } 
+        catch (SQLException ex) 
+        {
+            Logger.getLogger(FlightSearchView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(() -> {
-            new FlightView().setVisible(true);
+            new FlightSearchView().setVisible(true);
         });
     }
 
@@ -221,6 +307,7 @@ public class FlightView extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPanel panelResultado;
     private javax.swing.JTable tblResultado;
     private javax.swing.JTextField txtDestino;
     private javax.swing.JTextField txtOrigem;

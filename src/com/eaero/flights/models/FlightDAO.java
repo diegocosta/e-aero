@@ -41,8 +41,8 @@ public class FlightDAO extends DataAccessObject {
             item.setId(resultset.getInt("id"));
             item.setCost(resultset.getDouble("cost"));
             item.setHour(resultset.getTime("hour"));
-            item.setItineraryId(resultset.getInt("itinery_id"));
-              item.setAircraftId(resultset.getInt("aircraft_id"));
+            item.setItineraryId(resultset.getInt("itinerary_id"));
+            item.setAircraftId(resultset.getInt("aircraft_id"));
             item.setRoutineId(resultset.getInt("routine_id"));
             
             list.add(item);
@@ -124,19 +124,5 @@ public class FlightDAO extends DataAccessObject {
         return (result.size() > 0 ) ? result.get(0) : null;
     }
     
-    public ArrayList<Flight> findByForm(String departure, String destination, String date)
-    {
-        ArrayList<Flight> result = new ArrayList<>();
-        String superQuery = "SELECT * "
-                            + " FROM " + this.table + " AS flights"
-                            + " LEFT JOIN flights_routines AS routine WHERE flights.routine_id = routine.id "
-                            + " LEFT JOIN itineraries AS itinerary WHERE flights.itinerary_id = itinerary.id"
-                            + " LEFT JOIN aircrafts AS aircraft WHERE flights.aircraft_id = aircraft.id"
-                            + " WHERE itinerary.departure LIKE '%" + departure + "%'"
-                            + " AND itinerary.destination LIKE '%" + destination + "%'"
-                            + " AND routine.days LIKE '%" + date + "%'";
-        
-        return result;
-    }
     
 }
