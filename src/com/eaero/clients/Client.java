@@ -28,6 +28,7 @@ import java.sql.Date;
 public class Client {
     
     private int id;
+    private String email;
     private String firstName;
     private String lastName;
     private Date birthdate;
@@ -40,6 +41,14 @@ public class Client {
     
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getFirstName() {

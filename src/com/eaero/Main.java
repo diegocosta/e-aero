@@ -1,7 +1,6 @@
 package com.eaero;
 
 import com.eaero.views.MainView;
-import java.awt.Image;
 import java.sql.SQLException;
 import javax.swing.ImageIcon;
 
@@ -12,6 +11,7 @@ public class Main {
        main.setTitle("AeroApp");
        main.setIconImage(new ImageIcon(Main.class.getResource("views/images/icon_black.png")).getImage());
        main.setResizable(false);
+       main.setLocation(300, 100);
        main.setSize(800, 600);
        main.show();
     }

@@ -40,6 +40,7 @@ public class ClientDAO extends DataAccessObject {
             Client item = new Client();
             
             item.setId(resultset.getInt("id"));
+            item.setEmail(resultset.getString("email"));
             item.setFirstName(resultset.getString("firstName"));
             item.setLastName(resultset.getString("lastName"));
             item.setBirthdate(resultset.getDate("birthdate"));
@@ -55,13 +56,14 @@ public class ClientDAO extends DataAccessObject {
     }
 
     public void create(Client item)  throws SQLException{
-        try (PreparedStatement stmt = this.query("INSERT INTO " + this.table + " (firstName, lastName, birthdate, document, fidelity) VALUES (?,?,?,?,?)")) 
+        try (PreparedStatement stmt = this.query("INSERT INTO " + this.table + " (email, firstName, lastName, birthdate, document, fidelity) VALUES (?,?,?,?,?,?)")) 
         {
-            stmt.setString(1, item.getFirstName());
-            stmt.setString(2, item.getLastName());
-            stmt.setDate(3, item.getBirthdate());
-            stmt.setString(4, item.getDocument());
-            stmt.setInt(5, item.getFidelity());
+            stmt.setString(1, item.getEmail());
+            stmt.setString(2, item.getFirstName());
+            stmt.setString(3, item.getLastName());
+            stmt.setDate(4, item.getBirthdate());
+            stmt.setString(5, item.getDocument());
+            stmt.setInt(6, item.getFidelity());
             stmt.execute();
             stmt.close();
         } 
@@ -79,14 +81,15 @@ public class ClientDAO extends DataAccessObject {
     }
 
     public void update(Client item) throws SQLException {
-        try(PreparedStatement stmt = this.query("UPDATE " + this.table + " SET firstName=?, lastName=?, birthdate=?, document=?, fidelity=? WHERE id=?")) 
+        try(PreparedStatement stmt = this.query("UPDATE " + this.table + " SET email=?, firstName=?, lastName=?, birthdate=?, document=?, fidelity=? WHERE id=?")) 
         {
-            stmt.setString(1, item.getFirstName());
-            stmt.setString(2, item.getLastName());
-            stmt.setDate(3, item.getBirthdate());
-            stmt.setString(4, item.getDocument());
-            stmt.setInt(5, item.getFidelity());
-            stmt.setInt(6, item.getId());
+            stmt.setString(1, item.getEmail());
+            stmt.setString(2, item.getFirstName());
+            stmt.setString(3, item.getLastName());
+            stmt.setDate(4, item.getBirthdate());
+            stmt.setString(5, item.getDocument());
+            stmt.setInt(6, item.getFidelity());
+            stmt.setInt(7, item.getId());
             stmt.execute();
             stmt.close();
         }
@@ -114,11 +117,18 @@ public class ClientDAO extends DataAccessObject {
     }
     
     public Client findById(Integer id) throws SQLException {
-        return this.find("SELECT * FROM " + this.table + " WHERE id = " + id + " LIMIT 1").get(0);
+        ArrayList<Client> result = this.find("SELECT * FROM " + this.table + " WHERE id = " + id + " LIMIT 1");
+        return (result.size() > 0) ? result.get(0) : null;
+    }
+    
+    public Client findByEmail(String email) throws SQLException {
+        ArrayList<Client> result = this.find("SELECT * FROM " + this.table + " WHERE email = '" + email + "' LIMIT 1");
+        return (result.size() > 0) ? result.get(0) : null;
     }
     
     public Client findByDocument(String document) throws SQLException {
-        return this.find("SELECT * FROM " + this.table + " WHERE document = '" + document + "' LIMIT 1").get(0);
+        ArrayList<Client> result = this.find("SELECT * FROM " + this.table + " WHERE document = '" + document + "' LIMIT 1");
+        return (result.size() > 0) ? result.get(0) : null;
     }
     
 }
