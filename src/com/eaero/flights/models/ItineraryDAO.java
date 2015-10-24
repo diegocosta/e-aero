@@ -118,11 +118,13 @@ public class ItineraryDAO extends DataAccessObject{
     }
     
     public Itinerary findById(Integer id) throws SQLException {
-       return this.find("SELECT * FROM " + this.table + " WHERE id = " + id + " LIMIT 1").get(0);
+       ArrayList<Itinerary> result = this.find("SELECT * FROM " + this.table + " WHERE id = " + id + " LIMIT 1");
+       return (result.size() > 0) ? result.get(0) : null;
     }
     
     public Itinerary findByCode(String code) throws SQLException {
-        return this.find("SELECT * FROM " + this.table + " WHERE code = '" + code + "' LIMIT 1").get(0);
+        ArrayList<Itinerary> result = this.find("SELECT * FROM " + this.table + " WHERE code = '" + code + "' LIMIT 1");
+        return (result.size() > 0) ? result.get(0) : null;
     }
     
     public ArrayList<Itinerary> findByDestination(String destination) throws SQLException {

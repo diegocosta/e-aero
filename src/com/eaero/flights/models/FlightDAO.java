@@ -56,11 +56,11 @@ public class FlightDAO extends DataAccessObject {
     public void create(Flight item)  throws SQLException{
         try (PreparedStatement stmt = this.query("INSERT INTO " + this.table + " (cost, hour, itinerary_id,aircraft_id, routine_id) values (?,?,?,?,?)")) 
         {
-            stmt.setDouble(2, item.getCost());
-            stmt.setTime(3,item.getHour());
-            stmt.setInt(4, item.getItineraryId());
-            stmt.setInt(5, item.getAircraftId());
-            stmt.setInt(6, item.getRoutineId());
+            stmt.setDouble(1, item.getCost());
+            stmt.setTime(2,item.getHour());
+            stmt.setInt(3, item.getItineraryId());
+            stmt.setInt(4, item.getAircraftId());
+            stmt.setInt(5, item.getRoutineId());
                 
             stmt.execute();
         } 

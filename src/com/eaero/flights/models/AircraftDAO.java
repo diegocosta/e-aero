@@ -116,8 +116,9 @@ public class AircraftDAO extends DataAccessObject {
         return this.find("SELECT * FROM " + this.table + " WHERE id = " + id + " LIMIT 1").get(0);
     }
     
-    public Aircraft findByCode(Integer code) throws SQLException {
-        return this.find("SELECT * FROM " + this.table + " WHERE code= '" + code + "' LIMIT 1").get(0);
+    public Aircraft findByCode(String code) throws SQLException {
+        ArrayList<Aircraft> result = this.find("SELECT * FROM " + this.table + " WHERE code= '" + code + "' LIMIT 1");
+        return (result.size() > 0) ? result.get(0) : null;
     }
     
     public ArrayList<Aircraft> findByCompany(Integer company_id) throws SQLException {

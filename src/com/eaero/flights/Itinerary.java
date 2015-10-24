@@ -70,4 +70,10 @@ public class Itinerary {
         this.duration = duration;
     }
     
+    @Override
+    public String toString()
+    {
+        return "[" + this.code + "] " + this.departure + " / " + this.destination;
+    }
+    
 }

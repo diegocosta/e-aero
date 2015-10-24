@@ -42,5 +42,11 @@ public class FlightRoutine {
     public void setDays(String days) {
         this.days = days;
     }
+    
+    @Override
+    public String toString()
+    {
+        return this.days;
+    }
 
 }

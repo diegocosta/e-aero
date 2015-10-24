@@ -70,4 +70,10 @@ public class Aircraft {
         this.companyId = companyId;
     }
     
+    @Override
+    public String toString()
+    {
+        return this.code;
+    }
+    
 }
