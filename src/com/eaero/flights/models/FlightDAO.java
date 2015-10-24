@@ -115,11 +115,28 @@ public class FlightDAO extends DataAccessObject {
     }
     
     public Flight findById(Integer id) throws SQLException {
-        return this.find("SELECT * FROM " + this.table + " WHERE id = " + id + " LIMIT 1").get(0);
+        ArrayList<Flight> result = this.find("SELECT * FROM " + this.table + " WHERE id = " + id + " LIMIT 1");
+        return (result.size() > 0 ) ? result.get(0) : null;
     }
     
     public Flight findByItineraryId(Integer itineraryId) throws SQLException {
-        return this.find("SELECT * FROM " + this.table + " WHERE itinerary_id= '" + itineraryId + "' LIMIT 1").get(0);
+        ArrayList<Flight> result = this.find("SELECT * FROM " + this.table + " WHERE itinerary_id= '" + itineraryId + "' LIMIT 1");
+        return (result.size() > 0 ) ? result.get(0) : null;
+    }
+    
+    public ArrayList<Flight> findByForm(String departure, String destination, String date)
+    {
+        ArrayList<Flight> result = new ArrayList<>();
+        String superQuery = "SELECT * "
+                            + " FROM " + this.table + " AS flights"
+                            + " LEFT JOIN flights_routines AS routine WHERE flights.routine_id = routine.id "
+                            + " LEFT JOIN itineraries AS itinerary WHERE flights.itinerary_id = itinerary.id"
+                            + " LEFT JOIN aircrafts AS aircraft WHERE flights.aircraft_id = aircraft.id"
+                            + " WHERE itinerary.departure LIKE '%" + departure + "%'"
+                            + " AND itinerary.destination LIKE '%" + destination + "%'"
+                            + " AND routine.days LIKE '%" + date + "%'";
+        
+        return result;
     }
     
 }
