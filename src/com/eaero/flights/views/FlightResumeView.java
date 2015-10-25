@@ -23,14 +23,25 @@
  */
 package com.eaero.flights.views;
 
+import com.eaero.clients.Client;
+import com.eaero.clients.models.ClientDAO;
 import com.eaero.clients.views.ClientView;
+import com.eaero.flights.FlightResume;
+import com.eaero.flights.models.FlightResumeDAO;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 public class FlightResumeView extends javax.swing.JFrame {
     
+    private ClientDAO clientDAO = new ClientDAO();
+    private Client client = new Client();
+    
+    private FlightResumeDAO resumeDAO = new FlightResumeDAO();
+    private FlightResume resume = new FlightResume();
     private int codigo;
 
     public FlightResumeView(int codigo) {
@@ -48,6 +59,24 @@ public class FlightResumeView extends javax.swing.JFrame {
         initComponents();
         
         this.codigo = codigo;
+        
+        try 
+        {
+            this.resume = this.resumeDAO.getResume(this.codigo);
+            
+            lblCodigoVoo.setText(String.valueOf(this.resume.getFlightId()));
+            lblCompanhia.setText(this.resume.getCompanyName());
+            lblDestino.setText(this.resume.getItineraryDestination());
+            lblOrigem.setText(this.resume.getItineraryDeparture());
+            lblHora.setText(this.resume.getFlightHour().toString());
+            lblPreco.setText(this.resume.getFlightCost().toString());
+            lblDia.setText(this.resume.getRoutineDays());
+        } 
+        catch (SQLException ex) 
+        {
+            Logger.getLogger(FlightResumeView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         
         lblCodigoVoo.setText(String.valueOf(this.codigo));
     }
@@ -77,6 +106,9 @@ public class FlightResumeView extends javax.swing.JFrame {
         lblPreco = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         btnComprarPassagem = new javax.swing.JButton();
+        jLabel10 = new javax.swing.JLabel();
+        txtEmail = new javax.swing.JTextField();
+        btnContinuar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -218,19 +250,43 @@ public class FlightResumeView extends javax.swing.JFrame {
             }
         });
 
+        jLabel10.setText("Informe um e-mail válido");
+
+        btnContinuar.setText("Continuar");
+        btnContinuar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnContinuarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnComprarPassagem)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnComprarPassagem)
+                            .addComponent(jLabel10))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(txtEmail)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnContinuar)))
+                .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(276, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(jLabel10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnContinuar, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 211, Short.MAX_VALUE)
                 .addComponent(btnComprarPassagem, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -279,10 +335,39 @@ public class FlightResumeView extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnComprarPassagemActionPerformed
 
+    private void btnContinuarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContinuarActionPerformed
+        String email = txtEmail.getText();
+        
+        if(email.isEmpty() || !email.contains("@")){
+            JOptionPane.showMessageDialog(null, "Informe um e-mail válido", "email", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        try 
+        {
+            this.client = this.clientDAO.findByEmail(email);
+            
+            if(this.client == null){
+                System.out.println("Client não encontrado");
+                
+            }
+            else {
+                System.out.println("Cliente encontrado: " + this.client.getFirstName());
+            }
+        } 
+        catch (SQLException ex) {
+            Logger.getLogger(FlightResumeView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
+            
+    }//GEN-LAST:event_btnContinuarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnComprarPassagem;
+    private javax.swing.JButton btnContinuar;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -302,5 +387,6 @@ public class FlightResumeView extends javax.swing.JFrame {
     private javax.swing.JLabel lblHora;
     private javax.swing.JLabel lblOrigem;
     private javax.swing.JLabel lblPreco;
+    private javax.swing.JTextField txtEmail;
     // End of variables declaration//GEN-END:variables
 }
