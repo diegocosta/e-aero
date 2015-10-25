@@ -136,7 +136,7 @@
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="panelInformation" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="20" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -166,41 +166,46 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
-                              <Component id="txtFirstName" min="-2" pref="284" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="txtLastName" max="32767" attributes="0"/>
+                              <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="230" max="-2" attributes="0"/>
+                              <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="266" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="txtBirthdate" alignment="0" min="-2" pref="177" max="-2" attributes="0"/>
+                                          <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="txtDocument" alignment="0" min="-2" pref="252" max="-2" attributes="0"/>
+                                          <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="txtFidelity" max="32767" attributes="0"/>
+                                          <Group type="102" attributes="0">
+                                              <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                          </Group>
+                                      </Group>
+                                  </Group>
                                   <Group type="102" attributes="0">
-                                      <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="230" max="-2" attributes="0"/>
-                                      <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="txtFirstName" min="-2" pref="284" max="-2" attributes="0"/>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <Component id="txtLastName" max="32767" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
-                                      <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="152" max="-2" attributes="0"/>
-                                      <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
-                              <EmptySpace min="0" pref="256" max="32767" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="txtBirthdate" alignment="0" min="-2" pref="230" max="-2" attributes="0"/>
-                                  <Component id="btnAcao" alignment="0" min="-2" pref="221" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="txtDocument" max="32767" attributes="0"/>
-                                  <Group type="102" attributes="0">
-                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                      <Component id="btnAcao" min="-2" pref="221" max="-2" attributes="0"/>
+                                      <EmptySpace max="32767" attributes="0"/>
                                       <Component id="btnExcluir" min="-2" pref="185" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
+                              <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -221,18 +226,20 @@
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="txtBirthdate" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
                           <Component id="txtDocument" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
+                          <Component id="txtFidelity" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="btnAcao" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                           <Component id="btnExcluir" alignment="3" pref="42" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="13" max="32767" attributes="0"/>
+                      <EmptySpace pref="22" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -281,6 +288,13 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnExcluirActionPerformed"/>
               </Events>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel8">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Pontos"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="txtFidelity">
             </Component>
           </SubComponents>
         </Container>

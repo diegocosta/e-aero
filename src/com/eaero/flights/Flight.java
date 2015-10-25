@@ -80,5 +80,25 @@ public class Flight {
     public void setRoutineId(int routineId) {
         this.routineId = routineId;
     }
+    
+    public int getCostInPoints()
+    {
+        return this.getCostInPoints(this.cost);
+    }
+    
+    public int getCostInPoints(double cost)
+    {
+        return (int) cost * 2;
+    }
+    
+    public double getCostFirstClass()
+    {
+        return this.getCostFirstClass(this.cost);
+    }
+    
+    public double getCostFirstClass(double cost)
+    {
+        return cost + (cost * 0.4);
+    }
       
 }

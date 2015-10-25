@@ -72,6 +72,8 @@ public class ClientView extends javax.swing.JFrame {
         txtDocument = new javax.swing.JTextField();
         btnAcao = new javax.swing.JButton();
         btnExcluir = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
+        txtFidelity = new javax.swing.JTextField();
         txtEmail = new javax.swing.JTextField();
         btnContinueEmail = new javax.swing.JButton();
 
@@ -138,6 +140,8 @@ public class ClientView extends javax.swing.JFrame {
             }
         });
 
+        jLabel8.setText("Pontos");
+
         javax.swing.GroupLayout panelInformationLayout = new javax.swing.GroupLayout(panelInformation);
         panelInformation.setLayout(panelInformationLayout);
         panelInformationLayout.setHorizontalGroup(
@@ -146,31 +150,35 @@ public class ClientView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(panelInformationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelInformationLayout.createSequentialGroup()
-                        .addComponent(txtFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtLastName))
+                        .addComponent(jLabel2)
+                        .addGap(230, 230, 230)
+                        .addComponent(jLabel3)
+                        .addGap(266, 266, 266))
                     .addGroup(panelInformationLayout.createSequentialGroup()
                         .addGroup(panelInformationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(panelInformationLayout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(230, 230, 230)
-                                .addComponent(jLabel3))
+                                .addGroup(panelInformationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtBirthdate, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel4))
+                                .addGap(18, 18, 18)
+                                .addGroup(panelInformationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtDocument, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel5))
+                                .addGap(18, 18, 18)
+                                .addGroup(panelInformationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtFidelity)
+                                    .addGroup(panelInformationLayout.createSequentialGroup()
+                                        .addComponent(jLabel8)
+                                        .addGap(0, 0, Short.MAX_VALUE))))
                             .addGroup(panelInformationLayout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addGap(152, 152, 152)
-                                .addComponent(jLabel5)))
-                        .addGap(0, 256, Short.MAX_VALUE))
-                    .addGroup(panelInformationLayout.createSequentialGroup()
-                        .addGroup(panelInformationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtBirthdate, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnAcao, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(panelInformationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtDocument)
+                                .addComponent(txtFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtLastName))
                             .addGroup(panelInformationLayout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(btnExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap())
+                                .addComponent(btnAcao, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap())))
         );
         panelInformationLayout.setVerticalGroup(
             panelInformationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -186,16 +194,18 @@ public class ClientView extends javax.swing.JFrame {
                 .addGap(26, 26, 26)
                 .addGroup(panelInformationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jLabel5))
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel8))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(panelInformationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtBirthdate, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtDocument, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtDocument, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtFidelity, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(panelInformationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAcao, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnExcluir, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE))
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         btnContinueEmail.setText("Continuar");
@@ -233,7 +243,7 @@ public class ClientView extends javax.swing.JFrame {
                     .addComponent(btnContinueEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(panelInformation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -277,6 +287,7 @@ public class ClientView extends javax.swing.JFrame {
                 txtLastName.setText("");
                 txtBirthdate.setText("");
                 txtDocument.setText("");
+                txtFidelity.setText("");
                 
                 
                 btnAcao.setText("Cadastrar Cliente");
@@ -288,6 +299,7 @@ public class ClientView extends javax.swing.JFrame {
                 txtLastName.setText(this.client.getLastName());
                 txtBirthdate.setText(this.client.getBirthdate().toString());
                 txtDocument.setText(this.client.getDocument());
+                txtFidelity.setText(String.valueOf(this.client.getFidelity()));
                 
                 btnAcao.setText("Atualizar Cliente");
                 btnExcluir.setVisible(true);
@@ -328,6 +340,9 @@ public class ClientView extends javax.swing.JFrame {
         novoCliente.setBirthdate(data);
         novoCliente.setDocument(txtDocument.getText());
         novoCliente.setEmail(txtEmail.getText());
+        novoCliente.setFidelity(Integer.valueOf(txtFidelity.getText()));
+        
+        
         
         try {
             if(this.client == null)
@@ -337,6 +352,7 @@ public class ClientView extends javax.swing.JFrame {
             }
             else
             {
+                novoCliente.setId(this.client.getId());
                 this.clientDao.update(novoCliente);
                 JOptionPane.showMessageDialog(null, "A conta do cliente foi atualizada", "Cliente Atualizado", JOptionPane.INFORMATION_MESSAGE);
             }
@@ -387,12 +403,14 @@ public class ClientView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel panelInformation;
     private javax.swing.JTextField txtBirthdate;
     private javax.swing.JTextField txtDocument;
     private javax.swing.JTextField txtEmail;
+    private javax.swing.JTextField txtFidelity;
     private javax.swing.JTextField txtFirstName;
     private javax.swing.JTextField txtLastName;
     // End of variables declaration//GEN-END:variables
