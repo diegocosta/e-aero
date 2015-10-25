@@ -41,7 +41,8 @@ import javax.swing.table.DefaultTableModel;
 public class TicketMainView extends javax.swing.JFrame {
     private TicketResumeDAO ticketResumeDAO = new TicketResumeDAO();
 
-    public TicketMainView() {
+    public TicketMainView() 
+    {
         
         try 
         {
@@ -58,7 +59,7 @@ public class TicketMainView extends javax.swing.JFrame {
         
     }
     
-    private void initTableResult()
+    private void initTableResult() 
     {
         panelResult.setVisible(false);
         
@@ -78,13 +79,20 @@ public class TicketMainView extends javax.swing.JFrame {
             @Override
             public void mousePressed(MouseEvent me) {
                 if (me.getClickCount() == 2) {
-                    int selectedRow = tblResult.getSelectedRow();
-                    selectedRow = tblResult.convertRowIndexToModel(selectedRow);
-                    String code = tblResult.getModel().getValueAt(selectedRow, 0).toString();
-                    System.out.println(code);
-                    TicketDetailView detail = new TicketDetailView(code);
-                    detail.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                    detail.setVisible(true);
+                    try 
+                    {
+                        int selectedRow = tblResult.getSelectedRow();
+                        selectedRow = tblResult.convertRowIndexToModel(selectedRow);
+                        String code = tblResult.getModel().getValueAt(selectedRow, 0).toString();
+                        System.out.println(code);
+                        TicketDetailView detail = new TicketDetailView(code);
+                        detail.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                        detail.setVisible(true);
+                    } 
+                    catch (SQLException ex) 
+                    {
+                        Logger.getLogger(TicketMainView.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
             }
         });

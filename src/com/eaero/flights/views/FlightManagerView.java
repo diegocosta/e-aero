@@ -26,11 +26,11 @@ package com.eaero.flights.views;
 import com.eaero.clients.views.ClientView;
 import com.eaero.flights.Aircraft;
 import com.eaero.flights.Flight;
-import com.eaero.flights.FlightRoutine;
+import com.eaero.flights.Routine;
 import com.eaero.flights.Itinerary;
 import com.eaero.flights.models.AircraftDAO;
 import com.eaero.flights.models.FlightDAO;
-import com.eaero.flights.models.FlightRoutineDAO;
+import com.eaero.flights.models.RoutineDAO;
 import com.eaero.flights.models.ItineraryDAO;
 import java.sql.SQLException;
 import java.sql.Time;
@@ -48,8 +48,8 @@ public class FlightManagerView extends javax.swing.JFrame
     public Aircraft aircraft = new Aircraft();
     public AircraftDAO aircraftDAO = new AircraftDAO();
     
-    public FlightRoutine routine = new FlightRoutine();
-    public FlightRoutineDAO routineDAO = new FlightRoutineDAO();
+    public Routine routine = new Routine();
+    public RoutineDAO routineDAO = new RoutineDAO();
     
     public Flight flight = new Flight();
     public FlightDAO flightDAO = new FlightDAO();
@@ -69,7 +69,7 @@ public class FlightManagerView extends javax.swing.JFrame
         
         vooSelRotina.removeAllItems();
         
-        for(FlightRoutine r : this.routineDAO.read())
+        for(Routine r : this.routineDAO.read())
         {
             vooSelRotina.addItem(r);
         }
@@ -406,7 +406,7 @@ public class FlightManagerView extends javax.swing.JFrame
     }// </editor-fold>//GEN-END:initComponents
 
     private void vooBtnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vooBtnCadastrarActionPerformed
-        FlightRoutine fr = (FlightRoutine) vooSelRotina.getSelectedItem();
+        Routine fr = (Routine) vooSelRotina.getSelectedItem();
         Aircraft ar = (Aircraft) vooSelAviao.getSelectedItem();
         Itinerary it = (Itinerary) vooSelItinerario.getSelectedItem();
 

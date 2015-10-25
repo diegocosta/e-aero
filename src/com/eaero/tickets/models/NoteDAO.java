@@ -24,7 +24,7 @@
 package com.eaero.tickets.models;
 
 import com.eaero.tickets.Note;
-import com.eaero.models.DataAccessObject;
+import com.eaero.DataAccessObject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

@@ -23,7 +23,7 @@
  */
 package com.eaero.tickets.models;
 
-import com.eaero.models.DataAccessObject;
+import com.eaero.DataAccessObject;
 import com.eaero.tickets.Ticket;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

@@ -24,21 +24,21 @@
 
 package com.eaero.flights.models;
 
-import com.eaero.flights.FlightRoutine;
-import com.eaero.models.DataAccessObject;
+import com.eaero.flights.Routine;
+import com.eaero.DataAccessObject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class FlightRoutineDAO extends DataAccessObject {
+public class RoutineDAO extends DataAccessObject {
     private String table = "flights_routines";
     
-    private ArrayList<FlightRoutine> toList(ResultSet resultset) throws SQLException{
-        ArrayList<FlightRoutine> list = new ArrayList<>();
+    private ArrayList<Routine> toList(ResultSet resultset) throws SQLException{
+        ArrayList<Routine> list = new ArrayList<>();
         
         while(resultset.next()) {
-            FlightRoutine item= new FlightRoutine();
+            Routine item= new Routine();
             item.setId(resultset.getInt("id"));
             item.setDays(resultset.getString("days"));
             
@@ -50,8 +50,8 @@ public class FlightRoutineDAO extends DataAccessObject {
         return list;
     }
 
-    public ArrayList<FlightRoutine> read() throws SQLException {
-        ArrayList<FlightRoutine> list;
+    public ArrayList<Routine> read() throws SQLException {
+        ArrayList<Routine> list;
         try (PreparedStatement stmt = this.query("SELECT * FROM " + this.table)) 
         {
             ResultSet rs = stmt.executeQuery();
@@ -62,8 +62,8 @@ public class FlightRoutineDAO extends DataAccessObject {
     }
 
     
-    private ArrayList<FlightRoutine> find(String query) throws SQLException {
-        ArrayList<FlightRoutine> list;
+    private ArrayList<Routine> find(String query) throws SQLException {
+        ArrayList<Routine> list;
         try(PreparedStatement stmt = this.query(query))
         {
             ResultSet rs = stmt.executeQuery();
@@ -74,7 +74,7 @@ public class FlightRoutineDAO extends DataAccessObject {
         return list;
     }
     
-    public FlightRoutine findById(Integer id) throws SQLException {
+    public Routine findById(Integer id) throws SQLException {
         return this.find("SELECT * FROM " + this.table + " WHERE id = " + id + " LIMIT 1").get(0);
     }
     

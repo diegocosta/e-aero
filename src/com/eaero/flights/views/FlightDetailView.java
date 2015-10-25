@@ -40,7 +40,7 @@ import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-public class FlightResumeView extends javax.swing.JFrame {
+public class FlightDetailView extends javax.swing.JFrame {
     
     private int flightCode;
     private int seats;
@@ -53,7 +53,7 @@ public class FlightResumeView extends javax.swing.JFrame {
     private FlightResumeDAO flightResumeDAO = new FlightResumeDAO();
     private TicketDAO ticketDAO = new TicketDAO();
     
-    public FlightResumeView(int flightCode) {
+    public FlightDetailView(int flightCode) {
         
         try 
         {
@@ -88,7 +88,7 @@ public class FlightResumeView extends javax.swing.JFrame {
         } 
         catch (SQLException ex) 
         {
-            Logger.getLogger(FlightResumeView.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FlightDetailView.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         panelDetalhesCliente.setVisible(false);
@@ -356,8 +356,6 @@ public class FlightResumeView extends javax.swing.JFrame {
 
         jLabel10.setText("Informe um e-mail válido");
 
-        txtEmail.setText("diego@diegocosta.com.br");
-
         btnContinuar.setText("Continuar");
         btnContinuar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -557,7 +555,7 @@ public class FlightResumeView extends javax.swing.JFrame {
             this.ticketDAO.create(novoTicket);
             JOptionPane.showMessageDialog(null, "Sua Passagem foi comprada", "Passagem", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException ex) {
-            Logger.getLogger(FlightResumeView.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FlightDetailView.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnComprarPassagemActionPerformed
 
@@ -601,7 +599,7 @@ public class FlightResumeView extends javax.swing.JFrame {
             
         } 
         catch (SQLException ex) {
-            Logger.getLogger(FlightResumeView.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FlightDetailView.class.getName()).log(Level.SEVERE, null, ex);
         }
             
             

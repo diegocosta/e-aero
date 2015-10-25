@@ -25,7 +25,9 @@
 package com.eaero.tickets.views;
 
 import com.eaero.clients.views.ClientView;
+import com.eaero.tickets.Ticket;
 import com.eaero.tickets.TicketResume;
+import com.eaero.tickets.models.TicketDAO;
 import com.eaero.tickets.models.TicketResumeDAO;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -36,8 +38,9 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 public class TicketDetailView extends javax.swing.JFrame {
     private TicketResumeDAO ticketResumeDAO = new TicketResumeDAO();
+    private TicketDAO ticketDAO = new TicketDAO();
     
-    private String code;
+    private int id;
     
     public TicketDetailView(String code) throws SQLException {
         
@@ -50,11 +53,10 @@ public class TicketDetailView extends javax.swing.JFrame {
             Logger.getLogger(ClientView.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        this.code = code;
-        
         initComponents();
         
-        TicketResume resume = this.ticketResumeDAO.getResume(this.code);
+        TicketResume resume = this.ticketResumeDAO.getResume(code);
+        this.id = resume.getId();
         
         txtClientName.setText(resume.getLastName() + ", " + resume.getFirstName());
         txtBoardingDate.setText(resume.getDate());
@@ -301,6 +303,11 @@ public class TicketDetailView extends javax.swing.JFrame {
         );
 
         btnCancel.setText("Cancelar Passagem");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
 
         btnCheckin.setText("Check-In & Imprimir Passagem");
         btnCheckin.addActionListener(new java.awt.event.ActionListener() {
@@ -366,6 +373,22 @@ public class TicketDetailView extends javax.swing.JFrame {
     private void btnCheckinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCheckinActionPerformed
         JOptionPane.showMessageDialog(null, "Já está querendo demais né?", "Check-In", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btnCheckinActionPerformed
+
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        if(JOptionPane.showConfirmDialog(null, "Você quer apagar a passagem ?", "Atenção", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == 0)
+        {
+            try 
+            {
+                this.ticketDAO.delete(this.ticketDAO.findById(this.id));
+                
+                JOptionPane.showMessageDialog(null, "A passagem foi apagada", "Passagem", JOptionPane.INFORMATION_MESSAGE);
+                this.setVisible(false);   
+            } 
+            catch (SQLException ex) {
+                Logger.getLogger(ClientView.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_btnCancelActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

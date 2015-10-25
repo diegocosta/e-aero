@@ -21,32 +21,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.eaero.models;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+package com.eaero.flights;
 
-public abstract class DataAccessObject 
-{
-    protected Connection connection;
+public class Routine {
     
-    public DataAccessObject() {
-        this.connection = this.getConnection();
+    private int id;
+    private String days;
+
+    public int getId() {
+        return id;
     }
     
-    public Connection getConnection()
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getDays() {
+        return days;
+    }
+
+    public void setDays(String days) {
+        this.days = days;
+    }
+    
+    @Override
+    public String toString()
     {
-        try {
-            return DriverManager.getConnection("jdbc:mysql://localhost/aeroapp", "root", "root");
-        } catch (SQLException ex) {
-            throw new RuntimeException(ex);
-        }
+        return this.days;
     }
-    
-    public PreparedStatement query(String query) throws SQLException {
-        return this.connection.prepareStatement(query);
-    }
-    
+
 }

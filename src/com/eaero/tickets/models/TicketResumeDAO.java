@@ -24,7 +24,7 @@
 
 package com.eaero.tickets.models;
 
-import com.eaero.models.DataAccessObject;
+import com.eaero.DataAccessObject;
 import com.eaero.tickets.TicketResume;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -33,11 +33,7 @@ import java.util.ArrayList;
 
 public class TicketResumeDAO extends DataAccessObject 
 {
-    public ArrayList<TicketResume> search(String email, String code) throws SQLException
-    {
-        ArrayList<TicketResume> list = new ArrayList<>();
-        
-        String superQuery = "SELECT " +
+    private String sqlBase = "SELECT " +
                     "ticket.id AS id, " +
                     "ticket.number AS ticket_code, " +
                     "ticket.firstClass AS firstClass, " +
@@ -57,86 +53,47 @@ public class TicketResumeDAO extends DataAccessObject
                     "LEFT JOIN flights_routines AS routines ON flight.routine_id = routines.id " +
                     "LEFT JOIN itineraries AS itinerary ON flight.itinerary_id = itinerary.id " +
                     "LEFT JOIN aircrafts AS aircraft ON flight.aircraft_id = aircraft.id " +
-                    "LEFT JOIN companies AS company ON aircraft.company_id = company.id " +
-                    "WHERE client.email LIKE '%" + email + "%' AND ticket.number LIKE '%"+ code +"%';";
+                    "LEFT JOIN companies AS company ON aircraft.company_id = company.id ";
+   
+    private ArrayList<TicketResume> fetch(String superQuery) throws SQLException
+    {
+        ArrayList<TicketResume> list = new ArrayList<>();
         
-            try(PreparedStatement stmt = this.query(superQuery)){
-               ResultSet result = stmt.executeQuery();
-
-               while(result.next())
-               {
-                   TicketResume resume = new TicketResume();
-                   resume.setId(result.getInt("id"));
-                   resume.setTicketCode(result.getString("ticket_code"));
-                   resume.setFirstClass(result.getBoolean("firstClass"));
-                   resume.setFirstName(result.getString("firstName"));
-                   resume.setLastName(result.getString("lastName"));
-                   resume.setEmail(result.getString("email"));
-                   resume.setHour(result.getTime("hour"));
-                   resume.setDate(result.getString("date"));
-                   resume.setDeparture(result.getString("departure"));
-                   resume.setDestination(result.getString("destination"));
-                   resume.setDuration(result.getDouble("duration"));
-                   resume.setAircraft(result.getString("aircraft"));
-                   resume.setCompany(result.getString("company"));
-                   
-                   list.add(resume);
-               }
-
+        try(PreparedStatement stmt = this.query(superQuery)){
+           ResultSet result = stmt.executeQuery();
+           
+           while(result.next())
+           {
+                TicketResume resume = new TicketResume();
+                resume.setId(result.getInt("id"));
+                resume.setTicketCode(result.getString("ticket_code"));
+                resume.setFirstClass(result.getBoolean("firstClass"));
+                resume.setFirstName(result.getString("firstName"));
+                resume.setLastName(result.getString("lastName"));
+                resume.setEmail(result.getString("email"));
+                resume.setHour(result.getTime("hour"));
+                resume.setDate(result.getString("date"));
+                resume.setDeparture(result.getString("departure"));
+                resume.setDestination(result.getString("destination"));
+                resume.setDuration(result.getDouble("duration"));
+                resume.setAircraft(result.getString("aircraft"));
+                resume.setCompany(result.getString("company"));
+                
+                list.add(resume);
            }
-       
-       return list;
+       }
+        
+        return list;
+    }       
+    
+    public ArrayList<TicketResume> search(String email, String code) throws SQLException
+    {
+        return this.fetch(this.sqlBase + " WHERE client.email LIKE '%" + email + "%' AND ticket.number LIKE '%"+ code +"%';");
     }
     
     public TicketResume getResume(String code) throws SQLException
     {  
-        TicketResume resume = new TicketResume();
-        
-        String superQuery = "SELECT " +
-                    "ticket.id AS id, " +
-                    "ticket.number AS ticket_code, " +
-                    "ticket.firstClass AS firstClass, " +
-                    "client.firstName AS firstName, " +
-                    "client.lastName AS lastName, " +
-                    "client.email AS email, " +
-                    "flight.hour AS hour, " +
-                    "routines.days AS date, " +
-                    "itinerary.departure AS departure, " +
-                    "itinerary.destination AS destination, " +
-                    "itinerary.duration AS duration, " +
-                    "aircraft.code AS aircraft, " +
-                    "company.name AS company " +
-                    "FROM tickets AS ticket " +
-                    "LEFT JOIN clients AS client ON client.id = ticket.client_id " +
-                    "LEFT JOIN flights AS flight ON flight.id = ticket.flight_id " +
-                    "LEFT JOIN flights_routines AS routines ON flight.routine_id = routines.id " +
-                    "LEFT JOIN itineraries AS itinerary ON flight.itinerary_id = itinerary.id " +
-                    "LEFT JOIN aircrafts AS aircraft ON flight.aircraft_id = aircraft.id " +
-                    "LEFT JOIN companies AS company ON aircraft.company_id = company.id " +
-                    "WHERE ticket.number = '" + code + "'";
-        
-            try(PreparedStatement stmt = this.query(superQuery)){
-               ResultSet result = stmt.executeQuery();
-
-               while(result.next())
-               {
-                   resume.setId(result.getInt("id"));
-                   resume.setTicketCode(result.getString("ticket_code"));
-                   resume.setFirstClass(result.getBoolean("firstClass"));
-                   resume.setFirstName(result.getString("firstName"));
-                   resume.setLastName(result.getString("lastName"));
-                   resume.setEmail(result.getString("email"));
-                   resume.setHour(result.getTime("hour"));
-                   resume.setDate(result.getString("date"));
-                   resume.setDeparture(result.getString("departure"));
-                   resume.setDestination(result.getString("destination"));
-                   resume.setDuration(result.getDouble("duration"));
-                   resume.setAircraft(result.getString("aircraft"));
-                   resume.setCompany(result.getString("company"));
-               }
-
-           }
-       
-       return resume;
+        ArrayList<TicketResume> result = this.fetch(this.sqlBase + " WHERE ticket.number = '" + code + "'");
+        return (result.size() > 0) ? result.get(0) : null;
     }
 }

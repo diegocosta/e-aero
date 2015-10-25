@@ -25,7 +25,7 @@
 package com.eaero.flights.models;
 
 import com.eaero.flights.Company;
-import com.eaero.models.DataAccessObject;
+import com.eaero.DataAccessObject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

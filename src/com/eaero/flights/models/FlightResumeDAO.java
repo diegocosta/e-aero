@@ -25,50 +25,50 @@
 package com.eaero.flights.models;
 
 import com.eaero.flights.FlightResume;
-import com.eaero.models.DataAccessObject;
+import com.eaero.DataAccessObject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class FlightResumeDAO extends DataAccessObject {
     
-    public FlightResume getResume(int flight_id) throws SQLException
-    {
-        FlightResume resume = new FlightResume();
-        
-        String superQuery = "SELECT " +
-            "flight.id AS flight_id, " +
-            "flight.hour  AS flight_hour, " +
-            "flight.cost AS flight_cost, " +
-            "aircraft.id AS aircraft_id, " +
-            "aircraft.code AS aircraft_code, " +
-            "aircraft.seats AS aircraft_seats, " +
-            "aircraft.seatsFirstClass AS aircraft_firstclass, " +
-            "company.id AS company_id, " +
-            "company.name AS company_name, " +
-            "itinerary.id AS itinerary_id, " +
-            "itinerary.code AS itinerary_code, " +
-            "itinerary.departure AS itinerary_departure, " +
-            "itinerary.destination AS itinerary_destination, " +
-            "itinerary.duration AS itinerary_duration, " +
-            "routines.id AS routine_id, " +
-            "routines.days AS routine_days, " +
-            "(SELECT COUNT(*) FROM tickets WHERE tickets.flight_id = flight.id AND tickets.firstClass = 0) AS tickets_sale, " +
-            "(SELECT COUNT(*) FROM tickets WHERE tickets.flight_id = flight.id AND tickets.firstClass = 1) AS tickets_sale_firstclass " +
-            "FROM flights AS flight " +
-            "LEFT JOIN aircrafts AS aircraft ON flight.aircraft_id = aircraft.id " +
-            "LEFT JOIN companies AS company ON aircraft.company_id = company.id " +
-            "LEFT JOIN itineraries AS itinerary ON flight.itinerary_id = itinerary.id " +
-            "LEFT JOIN flights_routines AS routines ON flight.routine_id = routines.id " +
-            "WHERE flight.id = " + flight_id +
-            ";";
+    private String sqlBase = "SELECT " +
+                "flight.id AS flight_id, " +
+                "flight.hour  AS flight_hour, " +
+                "flight.cost AS flight_cost, " +
+                "aircraft.id AS aircraft_id, " +
+                "aircraft.code AS aircraft_code, " +
+                "aircraft.seats AS aircraft_seats, " +
+                "aircraft.seatsFirstClass AS aircraft_firstclass, " +
+                "company.id AS company_id, " +
+                "company.name AS company_name, " +
+                "itinerary.id AS itinerary_id, " +
+                "itinerary.code AS itinerary_code, " +
+                "itinerary.departure AS itinerary_departure, " +
+                "itinerary.destination AS itinerary_destination, " +
+                "itinerary.duration AS itinerary_duration, " +
+                "routines.id AS routine_id, " +
+                "routines.days AS routine_days, " +
+                "(SELECT COUNT(*) FROM tickets WHERE tickets.flight_id = flight.id AND tickets.firstClass = 0) AS tickets_sale, " +
+                "(SELECT COUNT(*) FROM tickets WHERE tickets.flight_id = flight.id AND tickets.firstClass = 1) AS tickets_sale_firstclass " +
+                "FROM flights AS flight " +
+                "LEFT JOIN aircrafts AS aircraft ON flight.aircraft_id = aircraft.id " +
+                "LEFT JOIN companies AS company ON aircraft.company_id = company.id " +
+                "LEFT JOIN itineraries AS itinerary ON flight.itinerary_id = itinerary.id " +
+                "LEFT JOIN flights_routines AS routines ON flight.routine_id = routines.id";
     
-       try(PreparedStatement stmt = this.query(superQuery)){
+    private ArrayList<FlightResume> fetch(String superQuery) throws SQLException
+    {
+        ArrayList<FlightResume> list = new ArrayList<>();
+        
+        try(PreparedStatement stmt = this.query(superQuery)){
            ResultSet result = stmt.executeQuery();
            
            while(result.next())
            {
-               resume.setFlightId(result.getInt("flight_id"));
+                FlightResume resume = new FlightResume();
+                resume.setFlightId(result.getInt("flight_id"));
                 resume.setFlightHour(result.getTime("flight_hour"));
                 resume.setFlightCost(result.getDouble("flight_cost"));
                 resume.setAircraftId(result.getInt("aircraft_id"));
@@ -86,11 +86,23 @@ public class FlightResumeDAO extends DataAccessObject {
                 resume.setRoutineDays(result.getString("routine_days"));
                 resume.setTicketsSale(result.getInt("tickets_sale"));
                 resume.setTicketsSaleFirstClass(result.getInt("tickets_sale_firstclass"));
+                
+                list.add(resume);
            }
-           
        }
-       
-       return resume;
+        
+        return list;
+    }        
+    
+    public ArrayList<FlightResume> search(String departure, String destination, String date)  throws SQLException
+    {
+        return this.fetch(this.sqlBase + " WHERE itinerary.departure LIKE '%" + departure + "%' AND itinerary.destination LIKE '%" + destination + "%' AND routines.days LIKE '%"+ date +"%';");
+    }
+    
+    public FlightResume getResume(int flight_id) throws SQLException
+    {   
+        ArrayList<FlightResume> result = this.fetch(this.sqlBase + " WHERE flight.id = " + flight_id +";");
+        return (result.size() > 0) ? result.get(0) : null;
     }
     
 }

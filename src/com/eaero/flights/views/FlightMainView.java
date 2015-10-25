@@ -24,12 +24,10 @@
 package com.eaero.flights.views;
 
 import com.eaero.clients.views.ClientView;
-import com.eaero.flights.Flight;
-import com.eaero.flights.FlightResult;
-import com.eaero.flights.FlightRoutine;
-import com.eaero.flights.models.FlightDAO;
-import com.eaero.flights.models.FlightResultDAO;
-import com.eaero.flights.models.FlightRoutineDAO;
+import com.eaero.flights.FlightResume;
+import com.eaero.flights.Routine;
+import com.eaero.flights.models.FlightResumeDAO;
+import com.eaero.flights.models.RoutineDAO;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
@@ -41,18 +39,13 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
 
-public class FlightSearchView extends javax.swing.JFrame {
+public class FlightMainView extends javax.swing.JFrame 
+{    
+    private FlightResumeDAO flightResumeDAO = new FlightResumeDAO();
+    private RoutineDAO routineDAO = new RoutineDAO();
     
-    private Flight flight = new Flight();
-    private FlightDAO flightDAO = new FlightDAO();
-    private FlightResult flightResult = new FlightResult();
-    private FlightResultDAO flightResultDAO = new FlightResultDAO();
-    public FlightRoutine routine = new FlightRoutine();
-    public FlightRoutineDAO routineDAO = new FlightRoutineDAO();
-    
-    public FlightSearchView() {
-        
-        
+    public FlightMainView() 
+    {
         try 
         {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -67,19 +60,25 @@ public class FlightSearchView extends javax.swing.JFrame {
         vooSelRotina.removeAllItems();
         
         try {
-            for(FlightRoutine r : this.routineDAO.read())
+            for(Routine r : this.routineDAO.read())
             {
                 vooSelRotina.addItem(r);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(FlightSearchView.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FlightMainView.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+       
+        this.initTableResult();
+    }
+    
+    public void initTableResult()
+    {
         panelResultado.setVisible(false);
         tblResultado.setAutoscrolls(true);
         tblResultado.setModel(new DefaultTableModel(
             new Object[][] {},
-            new String[]{  "Código", "Dia", "Hora", "Origem", "Destino", "Valor", "Avião", "Companhia" }
+            new String[]{  "ID", "Dia", "Hora", "Origem", "Destino", "Valor", "Avião", "Companhia" }
             ){
                 @Override
                 public boolean isCellEditable(int i, int i1) {
@@ -97,13 +96,12 @@ public class FlightSearchView extends javax.swing.JFrame {
                     selectedRow = tblResultado.convertRowIndexToModel(selectedRow);
                     int codigo = Integer.parseInt(tblResultado.getModel().getValueAt(selectedRow, 0).toString());
                     System.out.println(codigo);
-                    FlightResumeView resume = new FlightResumeView(codigo);
+                    FlightDetailView resume = new FlightDetailView(codigo);
                     resume.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                     resume.setVisible(true);
                 }
             }
         });
-        
     }
 
     @SuppressWarnings("unchecked")
@@ -284,7 +282,7 @@ public class FlightSearchView extends javax.swing.JFrame {
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         try 
         {
-            ArrayList<FlightResult> resultado = this.flightResultDAO.search(txtOrigem.getText(), txtDestino.getText(), vooSelRotina.getSelectedItem().toString());
+            ArrayList<FlightResume> resultado = this.flightResumeDAO.search(txtOrigem.getText(), txtDestino.getText(), vooSelRotina.getSelectedItem().toString());
             
             DefaultTableModel tabela = (DefaultTableModel) tblResultado.getModel();
             
@@ -292,9 +290,9 @@ public class FlightSearchView extends javax.swing.JFrame {
                 tabela.removeRow(0);
             }
             
-            for(FlightResult r : resultado){
+            for(FlightResume r : resultado){
                 tabela.addRow(new Object[]{
-                    r.getId(), r.getRoutineDay(), r.getHour(), r.getDeparture(), r.getDestination(), r.getCost(), r.getAircraftCode(), r.getCompanyName()
+                    r.getFlightId(), r.getRoutineDays(), r.getFlightHour(), r.getItineraryDeparture(), r.getItineraryDestination(), r.getFlightCost(), r.getAircraftCode(), r.getCompanyName()
                 });
             }
             
@@ -304,13 +302,13 @@ public class FlightSearchView extends javax.swing.JFrame {
         } 
         catch (SQLException ex) 
         {
-            Logger.getLogger(FlightSearchView.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FlightMainView.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(() -> {
-            new FlightSearchView().setVisible(true);
+            new FlightMainView().setVisible(true);
         });
     }
 
