@@ -198,8 +198,8 @@
                                       <Component id="txtLastName" max="32767" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
-                                      <Component id="btnAcao" min="-2" pref="221" max="-2" attributes="0"/>
-                                      <EmptySpace max="32767" attributes="0"/>
+                                      <Component id="btnAcao" max="32767" attributes="0"/>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Component id="btnExcluir" min="-2" pref="185" max="-2" attributes="0"/>
                                   </Group>
                               </Group>

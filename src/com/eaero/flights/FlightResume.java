@@ -189,5 +189,25 @@ public class FlightResume {
         this.ticketsSaleFirstClass = ticketsSaleFirstClass;
     }
     
+    public int getCostInPoints()
+    {
+        return this.getCostInPoints(this.flightCost);
+    }
+    
+    public int getCostInPoints(double cost)
+    {
+        return (int) cost * 2;
+    }
+    
+    public double getCostFirstClass()
+    {
+        return this.getCostFirstClass(this.flightCost);
+    }
+    
+    public double getCostFirstClass(double cost)
+    {
+        return cost + (cost * 0.4);
+    }
+    
     
 }

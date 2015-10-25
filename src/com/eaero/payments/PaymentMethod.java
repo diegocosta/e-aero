@@ -52,5 +52,10 @@ public class PaymentMethod {
         this.discount = discount;
     }
     
+    @Override
+    public String toString()
+    {
+        return this.label;
+    }
     
 }

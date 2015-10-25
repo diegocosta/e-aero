@@ -21,33 +21,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.eaero.models;
+package com.eaero.tickets;
 
-import java.sql.SQLException;
-
-public class DatabasePopulate extends DataAccessObject {
+public class TicketType {
+    private int id;
+    private String label;
     
-    public static void main(String[] args) throws SQLException
+    public TicketType(int id, String label)
     {
-        DatabasePopulate db = new DatabasePopulate();
+        this.setId(id);
+        this.setLabel(label);
+    }
 
-        db.flightsRoutines();
-     
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
     }
     
-    public void flightsRoutines() throws SQLException
+    @Override
+    public String toString()
     {
-        String query = "INSERT INTO flights_routines VALUES "
-                + "(null, 'Segundas'), "
-                + "(null, 'Terças'), "
-                + "(null, 'Quartas'), "
-                + "(null, 'Quintas'), "
-                + "(null, 'Sextas'), "
-                + "(null, 'Sabados'), "
-                + "(null, 'Domingos'), "
-                + "(null, 'Dias Úteis'), "
-                + "(null, 'Finais de Semana');";
-        
-        this.query(query).execute();
+        return this.label;
     }
 }
