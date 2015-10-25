@@ -21,9 +21,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 package com.eaero.flights;
 
 public class Itinerary {
+    
     private int id;
     private String code;
     private String departure;

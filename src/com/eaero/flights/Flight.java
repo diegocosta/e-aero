@@ -21,11 +21,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 package com.eaero.flights;
 
 import java.sql.Time;
 
 public class Flight {
+    
     private int id;
     private Time hour;
     private Double cost;
@@ -81,6 +83,4 @@ public class Flight {
         this.routineId = routineId;
     }
     
-   
-      
 }

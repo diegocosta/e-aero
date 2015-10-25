@@ -21,14 +21,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 package com.eaero.tickets;
 
 public class Ticket {
+    
     private int id;
     private String number;
     private Boolean firstClass;
     private int flightId;
     private int clientId;
+    private String paymentMethod;
 
     public int getId() {
         return id;
@@ -68,6 +71,14 @@ public class Ticket {
 
     public void setClientId(int clientId) {
         this.clientId = clientId;
+    }
+
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
     
 }

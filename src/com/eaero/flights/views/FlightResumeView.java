@@ -28,10 +28,12 @@ import com.eaero.clients.models.ClientDAO;
 import com.eaero.clients.views.ClientView;
 import com.eaero.flights.FlightResume;
 import com.eaero.flights.models.FlightResumeDAO;
-import com.eaero.payments.PaymentMethod;
-import com.eaero.payments.models.PaymentMethodDAO;
+import com.eaero.tickets.PaymentMethod;
+import com.eaero.tickets.Ticket;
 import com.eaero.tickets.TicketType;
+import com.eaero.tickets.models.TicketDAO;
 import java.sql.SQLException;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -40,22 +42,18 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 public class FlightResumeView extends javax.swing.JFrame {
     
-    private ClientDAO clientDAO = new ClientDAO();
+    private int flightCode;
+    private int seats;
+    private int seatsFirstClass;
+    
     private Client client = new Client();
-    
-    private FlightResumeDAO resumeDAO = new FlightResumeDAO();
     private FlightResume resume = new FlightResume();
-    private int codigo;
     
+    private ClientDAO clientDAO = new ClientDAO();
+    private FlightResumeDAO flightResumeDAO = new FlightResumeDAO();
+    private TicketDAO ticketDAO = new TicketDAO();
     
-    private int passagensDisponiveis;
-    private int passagensDisponiveisPrimeira;
-    
-    private PaymentMethodDAO metodopgtoDAO = new PaymentMethodDAO();
-    private PaymentMethod metodopgto = new PaymentMethod();
-
-    public FlightResumeView(int codigo) {
-        
+    public FlightResumeView(int flightCode) {
         
         try 
         {
@@ -68,14 +66,13 @@ public class FlightResumeView extends javax.swing.JFrame {
         
         initComponents();
         
-        this.codigo = codigo;
+        this.flightCode = flightCode;
         
         try 
         {
-            this.resume = this.resumeDAO.getResume(this.codigo);
-            
-            this.passagensDisponiveis = this.resume.getAircraftSeats() - this.resume.getTicketsSale();
-            this.passagensDisponiveisPrimeira = this.resume.getAircraftSeatsFistClass() - this.resume.getTicketsSaleFirstClass();
+            this.resume = this.flightResumeDAO.getResume(this.flightCode);
+            this.seats = this.resume.getAircraftSeats() - this.resume.getTicketsSale();
+            this.seatsFirstClass = this.resume.getAircraftSeatsFistClass() - this.resume.getTicketsSaleFirstClass();
             
             lblCompanhia.setText(this.resume.getCompanyName());
             lblDestino.setText(this.resume.getItineraryDestination());
@@ -83,8 +80,8 @@ public class FlightResumeView extends javax.swing.JFrame {
             lblHora.setText(this.resume.getFlightHour().toString());
             lblPreco.setText(this.resume.getFlightCost().toString());
             lblDia.setText(this.resume.getRoutineDays());
-            lblPassagensDePrimeira.setText(String.valueOf(this.passagensDisponiveisPrimeira));
-            lblPassagensDisponiveis.setText(String.valueOf(this.passagensDisponiveis));
+            lblPassagensDePrimeira.setText(String.valueOf(this.seatsFirstClass));
+            lblPassagensDisponiveis.setText(String.valueOf(this.seats));
             lblPrecoPontos.setText(String.valueOf(this.resume.getCostInPoints()));
             lblPrecoPrimeiraPontos.setText(String.valueOf(this.resume.getCostInPoints(this.resume.getCostFirstClass())));
             lblPrecoPrimeira.setText(String.valueOf(this.resume.getCostFirstClass()));
@@ -95,7 +92,6 @@ public class FlightResumeView extends javax.swing.JFrame {
         }
         
         panelDetalhesCliente.setVisible(false);
-        
         
     }
 
@@ -547,7 +543,22 @@ public class FlightResumeView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnComprarPassagemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComprarPassagemActionPerformed
-        // TODO add your handling code here:
+        TicketType ticketType = (TicketType) selEscolhaPassagem.getSelectedItem();
+        PaymentMethod paymentMethod = (PaymentMethod) selEscolhaPagamento.getSelectedItem();
+
+        Ticket novoTicket = new Ticket();
+        novoTicket.setNumber(UUID.randomUUID().toString().substring(0, 6));
+        novoTicket.setFirstClass(ticketType.getFirstClass());
+        novoTicket.setFlightId(this.resume.getFlightId());
+        novoTicket.setClientId(this.client.getId());
+        novoTicket.setPaymentMethod(paymentMethod.getType());
+        
+        try {
+            this.ticketDAO.create(novoTicket);
+            JOptionPane.showMessageDialog(null, "Sua Passagem foi comprada", "Passagem", JOptionPane.INFORMATION_MESSAGE);
+        } catch (SQLException ex) {
+            Logger.getLogger(FlightResumeView.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnComprarPassagemActionPerformed
 
     private void btnContinuarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContinuarActionPerformed
@@ -561,8 +572,8 @@ public class FlightResumeView extends javax.swing.JFrame {
         selEscolhaPagamento.removeAllItems();
         selEscolhaPassagem.removeAllItems();
         
-        selEscolhaPassagem.addItem(new TicketType(1, "Passagem Comum"));
-        selEscolhaPassagem.addItem(new TicketType(2, "Primeira Classe"));
+        selEscolhaPassagem.addItem(new TicketType("Passagem Comum", false));
+        selEscolhaPassagem.addItem(new TicketType("Primeira Classe", true));
         
         try 
         {
@@ -581,17 +592,10 @@ public class FlightResumeView extends javax.swing.JFrame {
                 lblPontos.setText(String.valueOf(this.client.getFidelity()));
             }
             
-            for(PaymentMethod pm : this.metodopgtoDAO.read()){
-                if(!"Pontos".equals(pm.toString()))
-                {
-                    selEscolhaPagamento.addItem(pm);
-                }
-                else
-                {
-                    if(this.client.getFidelity() >= this.resume.getCostInPoints()){
-                        selEscolhaPagamento.addItem(pm);
-                    }
-                }
+            selEscolhaPagamento.addItem(new PaymentMethod("Dinheiro", 1));
+            
+            if(this.client.getFidelity() >= this.resume.getCostInPoints()){
+                selEscolhaPagamento.addItem(new PaymentMethod("Pontos", 2));
             }
             
             

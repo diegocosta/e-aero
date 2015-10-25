@@ -21,6 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 package com.eaero.clients;
 
 import java.sql.Date;
@@ -91,6 +92,9 @@ public class Client {
         this.fidelity = fidelity;
     }
     
-    
-    
+    @Override
+    public String toString()
+    {
+        return this.firstName + " " + this.lastName;
+    }
 }

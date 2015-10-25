@@ -21,6 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 package com.eaero.flights;
 
 public class Company {
@@ -50,6 +51,12 @@ public class Company {
 
     public void setDocument(String document) {
         this.document = document;
+    }
+    
+    @Override
+    public String toString()
+    {
+        return this.name;
     }
     
 }

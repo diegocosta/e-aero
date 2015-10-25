@@ -21,24 +21,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 package com.eaero.tickets;
 
 public class TicketType {
-    private int id;
+    
+    private boolean firstClass;
     private String label;
     
-    public TicketType(int id, String label)
+    public TicketType(String label, boolean firstClass)
     {
-        this.setId(id);
-        this.setLabel(label);
+        this.label = label;
+        this.firstClass = firstClass;
     }
 
-    public int getId() {
-        return id;
+    public boolean getFirstClass() {
+        return this.firstClass;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setFirstClass(boolean firstClass) {
+        this.firstClass = firstClass;
     }
 
     public String getLabel() {
@@ -54,4 +56,5 @@ public class TicketType {
     {
         return this.label;
     }
+    
 }

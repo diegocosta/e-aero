@@ -21,9 +21,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 package com.eaero.tickets;
 
 public class NoteCategory {
+    
     private int id;
     private String label;
 
@@ -41,6 +43,12 @@ public class NoteCategory {
 
     public void setLabel(String label) {
         this.label = label;
+    }
+    
+    @Override
+    public String toString()
+    {
+        return this.label;
     }
     
 }

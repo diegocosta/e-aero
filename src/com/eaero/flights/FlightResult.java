@@ -21,11 +21,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 package com.eaero.flights;
 
 import java.sql.Time;
 
 public class FlightResult {
+    
     private int id;
     private Time hour;
     private String departure;
@@ -98,8 +100,6 @@ public class FlightResult {
     public void setDestination(String destination) {
         this.destination = destination;
     }
-    
-    
-    
+
     
 }

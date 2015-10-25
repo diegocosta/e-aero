@@ -21,45 +21,39 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.eaero.payments;
 
-public class Payment {
+package com.eaero.tickets;
+
+public class PaymentMethod {
+    
     private int id;
-    private int ticketId;
-    private int methodId;
-    private int statusId;
+    private String type;
+    
+    public PaymentMethod(String type, int id)
+    {
+        this.type = type;
+        this.id = id;
+    }
 
     public int getId() {
         return id;
     }
-    
+
     public void setId(int id) {
         this.id = id;
     }
 
-    public int getTicketId() {
-        return ticketId;
+    public String getType() {
+        return type;
     }
 
-    public void setTicketId(int ticketId) {
-        this.ticketId = ticketId;
-    }
-
-    public int getMethodId() {
-        return methodId;
-    }
-
-    public void setMethodId(int methodId) {
-        this.methodId = methodId;
-    }
-
-    public int getStatusId() {
-        return statusId;
-    }
-
-    public void setStatusId(int statusId) {
-        this.statusId = statusId;
+    public void setType(String type) {
+        this.type = type;
     }
     
-    
+    @Override
+    public String toString()
+    {
+        return this.type;
+    }
 }

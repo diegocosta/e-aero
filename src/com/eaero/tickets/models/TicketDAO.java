@@ -43,6 +43,7 @@ public class TicketDAO extends DataAccessObject {
             item.setFirstClass(resultset.getBoolean("firstClass"));
             item.setNumber(resultset.getString("number"));
             item.setFlightId(resultset.getInt("flight_id"));
+            item.setPaymentMethod(resultset.getString("payment_method"));
             
             list.add(item);
         }
@@ -53,12 +54,13 @@ public class TicketDAO extends DataAccessObject {
     }
 
     public void create(Ticket item)  throws SQLException{
-        try (PreparedStatement stmt = this.query("INSERT INTO " + this.table + " (number, firstClass, flight_id, client_id) VALUES (?,?,?,?)")) 
+        try (PreparedStatement stmt = this.query("INSERT INTO " + this.table + " (number, firstClass, flight_id, client_id, payment_method) VALUES (?,?,?,?,?)")) 
         {
             stmt.setString(1, item.getNumber());
             stmt.setBoolean(2, item.getFirstClass());
             stmt.setInt(3, item.getFlightId());
             stmt.setInt(4, item.getClientId());
+            stmt.setString(5, item.getPaymentMethod());
                 
             stmt.execute();
             stmt.close();
@@ -77,13 +79,14 @@ public class TicketDAO extends DataAccessObject {
     }
 
     public void update(Ticket item) throws SQLException {
-        try(PreparedStatement stmt = this.query("UPDATE " + this.table + " SET number=?, firstClass=?, flight_id=?, client_id=? WHERE id=?")) 
+        try(PreparedStatement stmt = this.query("UPDATE " + this.table + " SET number=?, firstClass=?, flight_id=?, client_id=?, payment_method=? WHERE id=?")) 
         {
             stmt.setString(1, item.getNumber());
             stmt.setBoolean(2, item.getFirstClass());
             stmt.setInt(3, item.getFlightId());
             stmt.setInt(4, item.getClientId());
-            stmt.setInt(5, item.getId());
+            stmt.setString(5, item.getPaymentMethod());
+            stmt.setInt(6, item.getId());
             
             stmt.execute();
             stmt.close();

@@ -21,14 +21,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 package com.eaero.tickets;
 
-import java.sql.Date;
-
 public class Note {
+    
     private int id;
     private int categoryId;
-    private Date created;
     private String text;
     private int ticketId;
 
@@ -46,14 +45,6 @@ public class Note {
 
     public void setCategoryId(int categoryId) {
         this.categoryId = categoryId;
-    }
-
-    public Date getCreated() {
-        return created;
-    }
-
-    public void setCreated(Date created) {
-        this.created = created;
     }
 
     public String getText() {

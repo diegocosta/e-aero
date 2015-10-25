@@ -21,6 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 package com.eaero.clients.models;
 
 import com.eaero.clients.Client;
@@ -123,11 +124,6 @@ public class ClientDAO extends DataAccessObject {
     
     public Client findByEmail(String email) throws SQLException {
         ArrayList<Client> result = this.find("SELECT * FROM " + this.table + " WHERE email = '" + email + "' LIMIT 1");
-        return (result.size() > 0) ? result.get(0) : null;
-    }
-    
-    public Client findByDocument(String document) throws SQLException {
-        ArrayList<Client> result = this.find("SELECT * FROM " + this.table + " WHERE document = '" + document + "' LIMIT 1");
         return (result.size() > 0) ? result.get(0) : null;
     }
     

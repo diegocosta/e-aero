@@ -21,11 +21,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 package com.eaero.flights;
 
 import java.sql.Time;
 
 public class FlightResume {
+    
     private int flightId;
     private Time flightHour;
     private Double flightCost;
@@ -208,6 +210,5 @@ public class FlightResume {
     {
         return cost + (cost * 0.4);
     }
-    
     
 }
