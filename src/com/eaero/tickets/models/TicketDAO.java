@@ -122,5 +122,5 @@ public class TicketDAO extends DataAccessObject {
     public Ticket findByFlight(Integer flight_id) throws SQLException {
         return this.find("SELECT * FROM " + this.table + " WHERE flight_id = " + flight_id + " LIMIT 1").get(0);
     }
-   
+    
 }
