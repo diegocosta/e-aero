@@ -1,12 +1,13 @@
 Tela: FlightDetailView
-- Inserir Dados dos mÈtodos de pagamentos
+- Inserir Dados dos m√©todos de pagamentos
 - Inserir Dados dos tipos de passagens
 - Criar Model para os tipos de passagens
-- Popular combobox com os mÈtodos de pagamentos
+- Popular combobox com os m√©todos de pagamentos
 - Popular combobox com os tipos de passagens
+- Botao de compra inserir pontos na conta do cliente
 
 Tela: TicketDetailView
-- Adicionar aÁ„o do bot„o de Notas para a tela NotesMainView.
+- Adicionar a√ß√£o do bot√£o de Notas para a tela NotesMainView.
 
 Tela: NotesMainView
 - Criar tela.
@@ -21,4 +22,4 @@ Tela: MainView
 - Criar Tela
 
 Geral
-- Refatorar e organizar o cÛdigo do projeto.
+- Refatorar e organizar o c√≥digo do projeto.
