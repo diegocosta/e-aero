@@ -31,7 +31,6 @@ public class Ticket {
     private Boolean firstClass;
     private int flightId;
     private int clientId;
-    private String paymentMethod;
 
     public int getId() {
         return id;
@@ -71,14 +70,6 @@ public class Ticket {
 
     public void setClientId(int clientId) {
         this.clientId = clientId;
-    }
-
-    public String getPaymentMethod() {
-        return paymentMethod;
-    }
-
-    public void setPaymentMethod(String paymentMethod) {
-        this.paymentMethod = paymentMethod;
     }
     
 }

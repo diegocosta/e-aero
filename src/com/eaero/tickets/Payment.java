@@ -21,76 +21,45 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+package com.eaero.tickets;
 
-package com.eaero.flights;
-
-import java.sql.Date;
-import java.sql.Time;
-
-public class Flight {
-    
+public class Payment {
     private int id;
-    private Time hour;
-    private Double cost;
-    private int itineraryId;
-    private int aircraftId;
-    private int routineId;
-    private Date date;
+    private int ticketId;
+    private int methodId;
+    private int status;
 
     public int getId() {
         return id;
     }
-    
+
     public void setId(int id) {
         this.id = id;
     }
 
-    public Time getHour() {
-        return hour;
+    public int getTicketId() {
+        return ticketId;
     }
 
-    public void setHour(Time hour) {
-        this.hour = hour;
+    public void setTicketId(int ticketId) {
+        this.ticketId = ticketId;
     }
 
-    public Double getCost() {
-        return cost;
+    public int getMethodId() {
+        return methodId;
     }
 
-    public void setCost(Double cost) {
-        this.cost = cost;
+    public void setMethodId(int methodId) {
+        this.methodId = methodId;
     }
 
-    public int getItineraryId() {
-        return itineraryId;
+    public int getStatus() {
+        return status;
     }
 
-    public void setItineraryId(int itineraryId) {
-        this.itineraryId = itineraryId;
+    public void setStatus(int status) {
+        this.status = status;
     }
-
-    public int getAircraftId() {
-        return aircraftId;
-    }
-
-    public void setAircraftId(int aircraftId) {
-        this.aircraftId = aircraftId;
-    }
-
-    public int getRoutineId() {
-        return routineId;
-    }
-
-    public void setRoutineId(int routineId) {
-        this.routineId = routineId;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
+    
     
 }

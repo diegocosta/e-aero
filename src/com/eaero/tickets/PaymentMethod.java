@@ -27,13 +27,7 @@ package com.eaero.tickets;
 public class PaymentMethod {
     
     private int id;
-    private String type;
-    
-    public PaymentMethod(String type, int id)
-    {
-        this.type = type;
-        this.id = id;
-    }
+    private String label;
 
     public int getId() {
         return id;
@@ -43,17 +37,17 @@ public class PaymentMethod {
         this.id = id;
     }
 
-    public String getType() {
-        return type;
+    public String getLabel() {
+        return label;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setLabel(String label) {
+        this.label = label;
     }
     
     @Override
     public String toString()
     {
-        return this.type;
+        return this.label;
     }
 }

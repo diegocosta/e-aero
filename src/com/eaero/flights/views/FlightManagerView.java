@@ -32,6 +32,7 @@ import com.eaero.flights.models.AircraftDAO;
 import com.eaero.flights.models.FlightDAO;
 import com.eaero.flights.models.RoutineDAO;
 import com.eaero.flights.models.ItineraryDAO;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.util.logging.Level;
@@ -126,6 +127,8 @@ public class FlightManagerView extends javax.swing.JFrame
         jLabel13 = new javax.swing.JLabel();
         vooSelAviao = new javax.swing.JComboBox();
         jLabel14 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        vooTxtData = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -305,6 +308,8 @@ public class FlightManagerView extends javax.swing.JFrame
 
         jLabel14.setText("Avião");
 
+        jLabel15.setText("Data");
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -319,14 +324,16 @@ public class FlightManagerView extends javax.swing.JFrame
                             .addComponent(jLabel10))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(vooTxtData, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel15))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel11)
-                            .addComponent(vooTxtPreco, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(vooTxtPreco, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(jLabel12)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(vooSelRotina, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(jLabel12)
+                            .addComponent(vooSelRotina, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel13)
@@ -343,12 +350,15 @@ public class FlightManagerView extends javax.swing.JFrame
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
                     .addComponent(jLabel11)
-                    .addComponent(jLabel12))
+                    .addComponent(jLabel12)
+                    .addComponent(jLabel15))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(vooTxtPreco, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(vooTxtHora, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(vooSelRotina, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(vooTxtPreco, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(vooTxtHora, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(vooSelRotina, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(vooTxtData))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel13)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -415,6 +425,7 @@ public class FlightManagerView extends javax.swing.JFrame
         this.flight.setRoutineId(fr.getId());
         this.flight.setCost(Double.parseDouble(vooTxtPreco.getText()));
         this.flight.setHour(Time.valueOf(vooTxtHora.getText()));
+        this.flight.setDate(Date.valueOf(vooTxtData.getText()));
         
         try 
         {
@@ -532,6 +543,7 @@ public class FlightManagerView extends javax.swing.JFrame
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -549,6 +561,7 @@ public class FlightManagerView extends javax.swing.JFrame
     private javax.swing.JComboBox vooSelAviao;
     private javax.swing.JComboBox vooSelItinerario;
     private javax.swing.JComboBox vooSelRotina;
+    private javax.swing.JTextField vooTxtData;
     private javax.swing.JTextField vooTxtHora;
     private javax.swing.JTextField vooTxtPreco;
     // End of variables declaration//GEN-END:variables

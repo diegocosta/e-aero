@@ -37,6 +37,7 @@ public class FlightResumeDAO extends DataAccessObject {
                 "flight.id AS flight_id, " +
                 "flight.hour  AS flight_hour, " +
                 "flight.cost AS flight_cost, " +
+                "flight.date AS flight_date, " +
                 "aircraft.id AS aircraft_id, " +
                 "aircraft.code AS aircraft_code, " +
                 "aircraft.seats AS aircraft_seats, " +
@@ -71,6 +72,7 @@ public class FlightResumeDAO extends DataAccessObject {
                 resume.setFlightId(result.getInt("flight_id"));
                 resume.setFlightHour(result.getTime("flight_hour"));
                 resume.setFlightCost(result.getDouble("flight_cost"));
+                resume.setFlightDate(result.getDate("flight_date"));
                 resume.setAircraftId(result.getInt("aircraft_id"));
                 resume.setAircraftCode(result.getString("aircraft_code"));
                 resume.setAircraftSeats(result.getInt("aircraft_seats"));

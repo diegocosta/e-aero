@@ -24,6 +24,7 @@
 
 package com.eaero.flights;
 
+import java.sql.Date;
 import java.sql.Time;
 
 public class FlightResume {
@@ -31,6 +32,7 @@ public class FlightResume {
     private int flightId;
     private Time flightHour;
     private Double flightCost;
+    private Date flightDate;
     private int aircraftId;
     private String aircraftCode;
     private int aircraftSeats;
@@ -69,6 +71,14 @@ public class FlightResume {
 
     public void setFlightCost(Double flightCost) {
         this.flightCost = flightCost;
+    }
+
+    public Date getFlightDate() {
+        return flightDate;
+    }
+
+    public void setFlightDate(Date flightDate) {
+        this.flightDate = flightDate;
     }
 
     public int getAircraftId() {

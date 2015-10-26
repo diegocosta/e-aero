@@ -78,7 +78,7 @@ public class FlightMainView extends javax.swing.JFrame
         tblResultado.setAutoscrolls(true);
         tblResultado.setModel(new DefaultTableModel(
             new Object[][] {},
-            new String[]{  "ID", "Dia", "Hora", "Origem", "Destino", "Valor", "Avião", "Companhia" }
+            new String[]{  "ID", "Data", "Hora", "Origem", "Destino", "Valor", "Avião", "Companhia" }
             ){
                 @Override
                 public boolean isCellEditable(int i, int i1) {
@@ -292,7 +292,7 @@ public class FlightMainView extends javax.swing.JFrame
             
             for(FlightResume r : resultado){
                 tabela.addRow(new Object[]{
-                    r.getFlightId(), r.getRoutineDays(), r.getFlightHour(), r.getItineraryDeparture(), r.getItineraryDestination(), r.getFlightCost(), r.getAircraftCode(), r.getCompanyName()
+                    r.getFlightId(), r.getFlightDate(), r.getFlightHour(), r.getItineraryDeparture(), r.getItineraryDestination(), r.getFlightCost(), r.getAircraftCode(), r.getCompanyName()
                 });
             }
             

@@ -45,6 +45,7 @@ public class FlightDAO extends DataAccessObject {
             item.setItineraryId(resultset.getInt("itinerary_id"));
             item.setAircraftId(resultset.getInt("aircraft_id"));
             item.setRoutineId(resultset.getInt("routine_id"));
+            item.setDate(resultset.getDate("date"));
             
             list.add(item);
         }
@@ -55,13 +56,14 @@ public class FlightDAO extends DataAccessObject {
     }
 
     public void create(Flight item)  throws SQLException{
-        try (PreparedStatement stmt = this.query("INSERT INTO " + this.table + " (cost, hour, itinerary_id,aircraft_id, routine_id) values (?,?,?,?,?)")) 
+        try (PreparedStatement stmt = this.query("INSERT INTO " + this.table + " (cost, hour, itinerary_id,aircraft_id, routine_id, date) values (?,?,?,?,?,?)")) 
         {
             stmt.setDouble(1, item.getCost());
             stmt.setTime(2,item.getHour());
             stmt.setInt(3, item.getItineraryId());
             stmt.setInt(4, item.getAircraftId());
             stmt.setInt(5, item.getRoutineId());
+            stmt.setDate(6, item.getDate());
                 
             stmt.execute();
         } 
@@ -79,14 +81,15 @@ public class FlightDAO extends DataAccessObject {
     }
 
     public void update(Flight item) throws SQLException {
-        try(PreparedStatement stmt = this.query("UPDATE " + this.table + " SET cost=?, hour=?, itinerary_id=?, aircraft_id=?, routine_id=? WHERE id=?")) 
+        try(PreparedStatement stmt = this.query("UPDATE " + this.table + " SET cost=?, hour=?, itinerary_id=?, aircraft_id=?, routine_id=?, date=? WHERE id=?")) 
         {
             stmt.setDouble(1, item.getCost());
             stmt.setTime(2,item.getHour());
             stmt.setInt(3, item.getItineraryId());
             stmt.setInt(4, item.getAircraftId());
             stmt.setInt(5, item.getRoutineId());
-            stmt.setInt(6, item.getId());
+            stmt.setDate(6, item.getDate());
+            stmt.setInt(7, item.getId());
                 
             stmt.execute();
             stmt.close();

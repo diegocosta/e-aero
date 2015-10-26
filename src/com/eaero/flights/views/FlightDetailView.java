@@ -78,6 +78,7 @@ public class FlightDetailView extends javax.swing.JFrame {
             lblDestino.setText(this.resume.getItineraryDestination());
             lblOrigem.setText(this.resume.getItineraryDeparture());
             lblHora.setText(this.resume.getFlightHour().toString());
+            lblData.setText(this.resume.getFlightDate().toString());
             lblPreco.setText(this.resume.getFlightCost().toString());
             lblDia.setText(this.resume.getRoutineDays());
             lblPassagensDePrimeira.setText(String.valueOf(this.seatsFirstClass));
@@ -127,6 +128,8 @@ public class FlightDetailView extends javax.swing.JFrame {
         lblPrecoPrimeira = new javax.swing.JLabel();
         lblPrecoPrimeiraPontos = new javax.swing.JLabel();
         lblPreco = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        lblData = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         txtEmail = new javax.swing.JTextField();
@@ -298,6 +301,11 @@ public class FlightDetailView extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel1.setText("Data :");
+
+        lblData.setText("jLabel21");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -324,10 +332,16 @@ public class FlightDetailView extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(lblDestino)))
                 .addGap(133, 133, 133)
-                .addComponent(jLabel8)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblCompanhia)
-                .addContainerGap(121, Short.MAX_VALUE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblCompanhia))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblData)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
@@ -346,7 +360,9 @@ public class FlightDetailView extends javax.swing.JFrame {
                     .addComponent(jLabel3)
                     .addComponent(lblHora)
                     .addComponent(jLabel5)
-                    .addComponent(lblDestino))
+                    .addComponent(lblDestino)
+                    .addComponent(jLabel1)
+                    .addComponent(lblData))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -355,6 +371,8 @@ public class FlightDetailView extends javax.swing.JFrame {
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Comprar Passagens"));
 
         jLabel10.setText("Informe um e-mail válido");
+
+        txtEmail.setText("diego@diegocosta.com.br");
 
         btnContinuar.setText("Continuar");
         btnContinuar.addActionListener(new java.awt.event.ActionListener() {
@@ -549,7 +567,6 @@ public class FlightDetailView extends javax.swing.JFrame {
         novoTicket.setFirstClass(ticketType.getFirstClass());
         novoTicket.setFlightId(this.resume.getFlightId());
         novoTicket.setClientId(this.client.getId());
-        novoTicket.setPaymentMethod(paymentMethod.getType());
         
         try {
             this.ticketDAO.create(novoTicket);
@@ -570,8 +587,7 @@ public class FlightDetailView extends javax.swing.JFrame {
         selEscolhaPagamento.removeAllItems();
         selEscolhaPassagem.removeAllItems();
         
-        selEscolhaPassagem.addItem(new TicketType("Passagem Comum", false));
-        selEscolhaPassagem.addItem(new TicketType("Primeira Classe", true));
+        
         
         try 
         {
@@ -590,11 +606,7 @@ public class FlightDetailView extends javax.swing.JFrame {
                 lblPontos.setText(String.valueOf(this.client.getFidelity()));
             }
             
-            selEscolhaPagamento.addItem(new PaymentMethod("Dinheiro", 1));
-            
-            if(this.client.getFidelity() >= this.resume.getCostInPoints()){
-                selEscolhaPagamento.addItem(new PaymentMethod("Pontos", 2));
-            }
+          
             
             
         } 
@@ -609,6 +621,7 @@ public class FlightDetailView extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnComprarPassagem;
     private javax.swing.JButton btnContinuar;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -635,6 +648,7 @@ public class FlightDetailView extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JLabel lblCompanhia;
+    private javax.swing.JLabel lblData;
     private javax.swing.JLabel lblDestino;
     private javax.swing.JLabel lblDia;
     private javax.swing.JLabel lblDocumento;
