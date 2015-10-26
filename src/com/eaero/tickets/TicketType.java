@@ -26,21 +26,21 @@ package com.eaero.tickets;
 
 public class TicketType {
     
-    private boolean firstClass;
+    private boolean premium;
     private String label;
     
-    public TicketType(String label, boolean firstClass)
+    public TicketType(String label, boolean premium)
     {
         this.label = label;
-        this.firstClass = firstClass;
+        this.premium = premium;
     }
 
     public boolean getFirstClass() {
-        return this.firstClass;
+        return this.premium;
     }
 
-    public void setFirstClass(boolean firstClass) {
-        this.firstClass = firstClass;
+    public void setFirstClass(boolean premium) {
+        this.premium = premium;
     }
 
     public String getLabel() {

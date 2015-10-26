@@ -16,3 +16,6 @@ INSERT INTO `flights_routines` (`days`) VALUES ('Sábados');
 INSERT INTO `flights_routines` (`days`) VALUES ('Domingos');
 INSERT INTO `flights_routines` (`days`) VALUES ('Finais de Semana');
 INSERT INTO `flights_routines` (`days`) VALUES ('Dias Úteis');
+
+INSERT INTO `payments_methods` (`label`) VALUES ('Dinheiro');
+INSERT INTO `payments_methods` (`label`) VALUES ('Pontos');

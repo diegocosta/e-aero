@@ -540,7 +540,7 @@
                               <Component id="jPanel5" alignment="0" max="32767" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="selEscolhaPassagem" alignment="0" min="-2" pref="285" max="-2" attributes="0"/>
+                                      <Component id="comboboxTicketType" alignment="0" min="-2" pref="285" max="-2" attributes="0"/>
                                       <Component id="jLabel9" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -549,7 +549,7 @@
                                           <Component id="jLabel20" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                       </Group>
-                                      <Component id="selEscolhaPagamento" max="32767" attributes="0"/>
+                                      <Component id="comboboxPaymentOptions" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -569,8 +569,8 @@
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="selEscolhaPassagem" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
-                              <Component id="selEscolhaPagamento" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
+                              <Component id="comboboxTicketType" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
+                              <Component id="comboboxPaymentOptions" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="btnComprarPassagem" min="-2" pref="40" max="-2" attributes="0"/>
@@ -676,7 +676,7 @@
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnComprarPassagemActionPerformed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JComboBox" name="selEscolhaPassagem">
+                <Component class="javax.swing.JComboBox" name="comboboxTicketType">
                   <Properties>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                       <StringArray count="4">
@@ -693,7 +693,7 @@
                     <Property name="text" type="java.lang.String" value="Escolha a Passagem"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JComboBox" name="selEscolhaPagamento">
+                <Component class="javax.swing.JComboBox" name="comboboxPaymentOptions">
                   <Properties>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                       <StringArray count="4">

@@ -28,11 +28,14 @@ import com.eaero.clients.models.ClientDAO;
 import com.eaero.clients.views.ClientView;
 import com.eaero.flights.FlightResume;
 import com.eaero.flights.models.FlightResumeDAO;
+import com.eaero.tickets.Payment;
 import com.eaero.tickets.PaymentMethod;
 import com.eaero.tickets.Ticket;
 import com.eaero.tickets.TicketType;
+import com.eaero.tickets.models.PaymentMethodDAO;
 import com.eaero.tickets.models.TicketDAO;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -53,47 +56,92 @@ public class FlightDetailView extends javax.swing.JFrame {
     private FlightResumeDAO flightResumeDAO = new FlightResumeDAO();
     private TicketDAO ticketDAO = new TicketDAO();
     
-    public FlightDetailView(int flightCode) {
-        
-        try 
-        {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } 
-        catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) 
-        {
-            Logger.getLogger(ClientView.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public FlightDetailView(int flightCode) throws SQLException 
+    {
+        this.changeSwingToSystemLookAndFeel();
         
         initComponents();
         
         this.flightCode = flightCode;
+        this.resume = this.flightResumeDAO.getResume(this.flightCode);
+        
+        this.initResumePage();
+    }
+    
+    private void changeSwingToSystemLookAndFeel()
+    {
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(FlightDetailView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    
+    private void initResumePage() throws SQLException
+    {
+        panelDetalhesCliente.setVisible(false);
+        
+        this.seats = this.resume.getAircraftSeats() - this.resume.getTicketsSale();
+        this.seatsFirstClass = this.resume.getAircraftSeatsFistClass() - this.resume.getTicketsSaleFirstClass();
+        
+        lblCompanhia.setText(this.resume.getCompanyName());
+        lblDestino.setText(this.resume.getItineraryDestination());
+        lblOrigem.setText(this.resume.getItineraryDeparture());
+        lblHora.setText(this.resume.getFlightHour().toString());
+        lblData.setText(this.resume.getFlightDate().toString());
+        lblPreco.setText(this.resume.getFlightCost().toString());
+        lblDia.setText(this.resume.getRoutineDays());
+        lblPassagensDePrimeira.setText(String.valueOf(this.seatsFirstClass));
+        lblPassagensDisponiveis.setText(String.valueOf(this.seats));
+        lblPrecoPontos.setText(String.valueOf(this.resume.getCostInPoints()));
+        lblPrecoPrimeiraPontos.setText(String.valueOf(this.resume.getCostInPoints(this.resume.getCostFirstClass())));
+        lblPrecoPrimeira.setText(String.valueOf(this.resume.getCostFirstClass()));
+    }
+    
+    private void initTicketType()
+    {
+        comboboxTicketType.removeAllItems();
+        
+        ArrayList<TicketType> ticketTypes = new ArrayList<>();
+        
+        if(this.seats > 0)
+            ticketTypes.add(new TicketType("Passagem Comum", false));
+        
+        if(this.seatsFirstClass > 0)
+            ticketTypes.add(new TicketType("Primeira Classe", true));
+        
+        
+        ticketTypes.stream().forEach((tt) -> {
+            comboboxTicketType.addItem(tt);
+        });
+    }
+    
+    private void initPaymentOptions()
+    {
+        comboboxPaymentOptions.removeAllItems();
         
         try 
         {
-            this.resume = this.flightResumeDAO.getResume(this.flightCode);
-            this.seats = this.resume.getAircraftSeats() - this.resume.getTicketsSale();
-            this.seatsFirstClass = this.resume.getAircraftSeatsFistClass() - this.resume.getTicketsSaleFirstClass();
+            PaymentMethodDAO paymentMethodDAO = new PaymentMethodDAO();
+            ArrayList<PaymentMethod> paymentMethods = paymentMethodDAO.read();
             
-            lblCompanhia.setText(this.resume.getCompanyName());
-            lblDestino.setText(this.resume.getItineraryDestination());
-            lblOrigem.setText(this.resume.getItineraryDeparture());
-            lblHora.setText(this.resume.getFlightHour().toString());
-            lblData.setText(this.resume.getFlightDate().toString());
-            lblPreco.setText(this.resume.getFlightCost().toString());
-            lblDia.setText(this.resume.getRoutineDays());
-            lblPassagensDePrimeira.setText(String.valueOf(this.seatsFirstClass));
-            lblPassagensDisponiveis.setText(String.valueOf(this.seats));
-            lblPrecoPontos.setText(String.valueOf(this.resume.getCostInPoints()));
-            lblPrecoPrimeiraPontos.setText(String.valueOf(this.resume.getCostInPoints(this.resume.getCostFirstClass())));
-            lblPrecoPrimeira.setText(String.valueOf(this.resume.getCostFirstClass()));
+            paymentMethods.stream().forEach((pm) -> {
+                
+                if("Pontos".equals(pm.getLabel())){
+                    if(this.client.getFidelity() >= this.resume.getCostInPoints()){
+                        comboboxPaymentOptions.addItem(pm);
+                    }
+                }
+                else
+                {
+                    comboboxPaymentOptions.addItem(pm);
+                }
+            });
         } 
-        catch (SQLException ex) 
-        {
+        catch (SQLException ex) {
             Logger.getLogger(FlightDetailView.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        panelDetalhesCliente.setVisible(false);
-        
     }
 
     @SuppressWarnings("unchecked")
@@ -143,9 +191,9 @@ public class FlightDetailView extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         lblPontos = new javax.swing.JLabel();
         btnComprarPassagem = new javax.swing.JButton();
-        selEscolhaPassagem = new javax.swing.JComboBox();
+        comboboxTicketType = new javax.swing.JComboBox();
         jLabel9 = new javax.swing.JLabel();
-        selEscolhaPagamento = new javax.swing.JComboBox();
+        comboboxPaymentOptions = new javax.swing.JComboBox();
         jLabel20 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -440,11 +488,11 @@ public class FlightDetailView extends javax.swing.JFrame {
             }
         });
 
-        selEscolhaPassagem.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboboxTicketType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel9.setText("Escolha a Passagem");
 
-        selEscolhaPagamento.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboboxPaymentOptions.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel20.setText("Forma de Pagamento");
 
@@ -459,14 +507,14 @@ public class FlightDetailView extends javax.swing.JFrame {
                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(panelDetalhesClienteLayout.createSequentialGroup()
                         .addGroup(panelDetalhesClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(selEscolhaPassagem, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(comboboxTicketType, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel9))
                         .addGap(18, 18, 18)
                         .addGroup(panelDetalhesClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(panelDetalhesClienteLayout.createSequentialGroup()
                                 .addComponent(jLabel20)
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(selEscolhaPagamento, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(comboboxPaymentOptions, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         panelDetalhesClienteLayout.setVerticalGroup(
@@ -480,8 +528,8 @@ public class FlightDetailView extends javax.swing.JFrame {
                     .addComponent(jLabel20))
                 .addGap(18, 18, 18)
                 .addGroup(panelDetalhesClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(selEscolhaPassagem, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(selEscolhaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(comboboxTicketType, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comboboxPaymentOptions, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(btnComprarPassagem, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -559,19 +607,38 @@ public class FlightDetailView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnComprarPassagemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComprarPassagemActionPerformed
-        TicketType ticketType = (TicketType) selEscolhaPassagem.getSelectedItem();
-        PaymentMethod paymentMethod = (PaymentMethod) selEscolhaPagamento.getSelectedItem();
-
-        Ticket novoTicket = new Ticket();
-        novoTicket.setNumber(UUID.randomUUID().toString().substring(0, 6));
-        novoTicket.setFirstClass(ticketType.getFirstClass());
-        novoTicket.setFlightId(this.resume.getFlightId());
-        novoTicket.setClientId(this.client.getId());
         
-        try {
-            this.ticketDAO.create(novoTicket);
+        TicketType ticketType = (TicketType) comboboxTicketType.getSelectedItem();
+        PaymentMethod paymentMethod = (PaymentMethod) comboboxPaymentOptions.getSelectedItem();
+
+        Ticket newTicket = new Ticket();
+        newTicket.setNumber(UUID.randomUUID().toString().substring(0, 6));
+        newTicket.setFirstClass(ticketType.getFirstClass());
+        newTicket.setFlightId(this.resume.getFlightId());
+        newTicket.setClientId(this.client.getId());
+        
+        Payment newPayment = new Payment();
+        newPayment.setMethodId(paymentMethod.getId());
+        newPayment.setStatus(0);
+        newPayment.setTicketId(seats);
+        
+        try 
+        {
+            this.ticketDAO.create(newTicket);
+            
+            if("Dinheiro".equals(paymentMethod.getLabel())){
+                this.clientDAO.addFidelityPoints(this.client.getId(), (this.resume.getCostInPoints() / 2) );
+            }
+            
+            
+            if("Pontos".equals(paymentMethod.getLabel())){
+                int cost = (ticketType.getFirstClass()) ? this.resume.getCostInPoints(this.resume.getCostFirstClass()) : this.resume.getCostInPoints();
+                this.clientDAO.removeFidelityPoints(this.client.getId(), cost);
+            }
+            
             JOptionPane.showMessageDialog(null, "Sua Passagem foi comprada", "Passagem", JOptionPane.INFORMATION_MESSAGE);
-        } catch (SQLException ex) {
+        } 
+        catch (SQLException ex) {
             Logger.getLogger(FlightDetailView.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnComprarPassagemActionPerformed
@@ -583,44 +650,40 @@ public class FlightDetailView extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Informe um e-mail válido", "email", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
-        selEscolhaPagamento.removeAllItems();
-        selEscolhaPassagem.removeAllItems();
-        
-        
-        
+
         try 
         {
             this.client = this.clientDAO.findByEmail(email);
             
-            if(this.client == null){
+            if(this.client == null)
+            {
                 System.out.println("Client não encontrado");
                 JOptionPane.showMessageDialog(null, "Nenhum cliente encontrado com esse e-mail", "Cliente", JOptionPane.ERROR_MESSAGE);
                 
             }
-            else {
+            else 
+            {
                 System.out.println("Cliente encontrado: " + this.client.getFirstName());
                 panelDetalhesCliente.setVisible(true);
                 lblNomeCliente.setText(this.client.getFirstName() + " " + this.client.getLastName());
                 lblDocumento.setText(this.client.getDocument());
                 lblPontos.setText(String.valueOf(this.client.getFidelity()));
             }
-            
-          
-            
-            
         } 
         catch (SQLException ex) {
             Logger.getLogger(FlightDetailView.class.getName()).log(Level.SEVERE, null, ex);
         }
-            
-            
+        
+        this.initTicketType();
+        this.initPaymentOptions();
     }//GEN-LAST:event_btnContinuarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnComprarPassagem;
     private javax.swing.JButton btnContinuar;
+    private javax.swing.JComboBox comboboxPaymentOptions;
+    private javax.swing.JComboBox comboboxTicketType;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -663,8 +726,6 @@ public class FlightDetailView extends javax.swing.JFrame {
     private javax.swing.JLabel lblPrecoPrimeira;
     private javax.swing.JLabel lblPrecoPrimeiraPontos;
     private javax.swing.JPanel panelDetalhesCliente;
-    private javax.swing.JComboBox selEscolhaPagamento;
-    private javax.swing.JComboBox selEscolhaPassagem;
     private javax.swing.JTextField txtEmail;
     // End of variables declaration//GEN-END:variables
 }
