@@ -127,4 +127,45 @@ public class ClientDAO extends DataAccessObject {
         return (result.size() > 0) ? result.get(0) : null;
     }
     
+    public int fetchFidelityPoints(int client_id) throws SQLException
+    {
+        int points = 0;
+        try(PreparedStatement stmt = this.query("SELECT fidelity FROM " + this.table + " WHERE id =? LIMIT 1"))
+        {
+            stmt.setInt(1, client_id);
+            
+            ResultSet rs = stmt.executeQuery();
+            
+            while(rs.next())
+            {
+                points = rs.getInt("fidelity");
+            }
+        }
+        return points;
+    }
+    
+    public void updateFidelityPoints(int client_id, int points) throws SQLException
+    {
+        try(PreparedStatement stmt = this.query("UPDATE " + this.table + " SET fidelity=? WHERE id=?"))
+        {
+            stmt.setInt(1, points);
+            stmt.setInt(2, client_id);
+            
+            stmt.execute();
+            stmt.close();
+        }
+    }
+    
+    public void addFidelityPoints(int client_id, int points) throws SQLException
+    {
+        int p = this.fetchFidelityPoints(client_id) + points;
+        this.updateFidelityPoints(client_id, p);
+    }
+    
+    public void removeFidelityPoints(int client_id, int points) throws SQLException
+    {
+        int p = this.fetchFidelityPoints(client_id) - points;
+        this.updateFidelityPoints(client_id, p);
+    }
+    
 }
