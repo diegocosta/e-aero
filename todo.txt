@@ -1,12 +1,4 @@
-Tela: FlightDetailView
-- Inserir Dados dos métodos de pagamentos
-- Inserir Dados dos tipos de passagens
-- Criar Model para os tipos de passagens
-- Popular combobox com os métodos de pagamentos
-- Popular combobox com os tipos de passagens
-- Botao de compra inserir pontos na conta do cliente
-
-Tela: TicketDetailView
+﻿Tela: TicketDetailView
 - Adicionar ação do botão de Notas para a tela NotesMainView.
 
 Tela: NotesMainView
