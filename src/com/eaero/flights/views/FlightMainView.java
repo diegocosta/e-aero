@@ -96,7 +96,12 @@ public class FlightMainView extends javax.swing.JFrame
                     selectedRow = tblResultado.convertRowIndexToModel(selectedRow);
                     int codigo = Integer.parseInt(tblResultado.getModel().getValueAt(selectedRow, 0).toString());
                     System.out.println(codigo);
-                    FlightDetailView resume = new FlightDetailView(codigo);
+                    FlightDetailView resume = null ;
+                    try {
+                        resume = new FlightDetailView(codigo);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(FlightMainView.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     resume.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                     resume.setVisible(true);
                 }
@@ -164,6 +169,13 @@ public class FlightMainView extends javax.swing.JFrame
         jLabel2.setText("Destino");
 
         jLabel3.setText("Dias de Saída");
+
+        txtOrigem.setText("1");
+        txtOrigem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtOrigemActionPerformed(evt);
+            }
+        });
 
         btnBuscar.setText("Buscar");
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -296,8 +308,11 @@ public class FlightMainView extends javax.swing.JFrame
                 });
             }
             
+            if(!(txtOrigem.getText().equals("") && txtDestino.getText().equals(""))){
+                panelResultado.setVisible(true);
             
-            panelResultado.setVisible(true);
+            }
+            
             
         } 
         catch (SQLException ex) 
@@ -305,6 +320,10 @@ public class FlightMainView extends javax.swing.JFrame
             Logger.getLogger(FlightMainView.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void txtOrigemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtOrigemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtOrigemActionPerformed
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(() -> {

@@ -185,6 +185,12 @@ public class TicketMainView extends javax.swing.JFrame {
 
         jLabel1.setText("Por Cliente (E-mail)");
 
+        txtEmailClient.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtEmailClientActionPerformed(evt);
+            }
+        });
+
         jLabel2.setText("Por Voo (Código)");
 
         btnFilter.setText("Filtrar");
@@ -288,7 +294,14 @@ public class TicketMainView extends javax.swing.JFrame {
                 });
             }
             
-            panelResult.setVisible(true);
+            
+           if(!(txtEmailClient.getText().equals("") && txtCodeFlight.getText().equals(""))) {
+               panelResult.setVisible(true);
+           
+           }   
+            
+            
+            
 
         } 
         catch (SQLException ex) 
@@ -296,6 +309,10 @@ public class TicketMainView extends javax.swing.JFrame {
             Logger.getLogger(TicketMainView.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnFilterActionPerformed
+
+    private void txtEmailClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailClientActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtEmailClientActionPerformed
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(() -> {
