@@ -39,7 +39,7 @@ public abstract class DataAccessObject
     public Connection getConnection()
     {
         try {
-            return DriverManager.getConnection("jdbc:mysql://localhost/aeroapp", "root", "root");
+            return DriverManager.getConnection("jdbc:mysql://localhost/aeroapp", "root", "");
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
