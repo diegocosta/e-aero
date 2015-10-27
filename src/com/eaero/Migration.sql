@@ -19,3 +19,8 @@ INSERT INTO `flights_routines` (`days`) VALUES ('Dias Úteis');
 
 INSERT INTO `payments_methods` (`label`) VALUES ('Dinheiro');
 INSERT INTO `payments_methods` (`label`) VALUES ('Pontos');
+
+INSERT INTO `notes_categories` (label) VALUES ('Geral');
+INSERT INTO `notes_categories` (label) VALUES ('Alimentação');
+INSERT INTO `notes_categories` (label) VALUES ('Atendimento');
+INSERT INTO `notes_categories` (label) VALUES ('Reserva de Cadeira');

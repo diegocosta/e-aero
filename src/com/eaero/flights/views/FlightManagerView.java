@@ -23,6 +23,7 @@
  */
 package com.eaero.flights.views;
 
+import com.eaero.Main;
 import com.eaero.clients.views.ClientView;
 import com.eaero.flights.Aircraft;
 import com.eaero.flights.Flight;
@@ -37,6 +38,7 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -57,6 +59,12 @@ public class FlightManagerView extends javax.swing.JFrame
 
     public FlightManagerView() throws SQLException 
     {
+        setTitle("Gerenciador de Voos");
+        setIconImage(new ImageIcon(Main.class.getResource("views/images/icon_black.png")).getImage());
+        setResizable(false);
+        setLocation(300, 100);
+        setSize(745, 626);
+        
         try 
         {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -258,13 +266,12 @@ public class FlightManagerView extends javax.swing.JFrame
                     .addComponent(jLabel8))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel9)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jLabel9)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(aviTxtAssentosPrimeira, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(aviBtnAcao, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(18, 18, 18)
+                        .addComponent(aviBtnAcao, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -276,8 +283,9 @@ public class FlightManagerView extends javax.swing.JFrame
                     .addComponent(jLabel9))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(aviBtnAcao, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
-                    .addComponent(aviTxtAssentosPrimeira)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(aviTxtAssentosPrimeira, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+                        .addComponent(aviBtnAcao, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE))
                     .addComponent(aviTxtAssentos)
                     .addComponent(aviTxtCodigo))
                 .addContainerGap(20, Short.MAX_VALUE))

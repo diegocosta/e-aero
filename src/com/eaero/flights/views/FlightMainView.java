@@ -23,6 +23,7 @@
  */
 package com.eaero.flights.views;
 
+import com.eaero.Main;
 import com.eaero.clients.views.ClientView;
 import com.eaero.flights.FlightResume;
 import com.eaero.flights.Routine;
@@ -34,6 +35,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -46,6 +48,13 @@ public class FlightMainView extends javax.swing.JFrame
     
     public FlightMainView() 
     {
+        setTitle("Voos");
+        setIconImage(new ImageIcon(Main.class.getResource("views/images/icon_black.png")).getImage());
+        setResizable(false);
+        setLocation(300, 100);
+        setSize(745, 626);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        
         try 
         {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -96,9 +105,15 @@ public class FlightMainView extends javax.swing.JFrame
                     selectedRow = tblResultado.convertRowIndexToModel(selectedRow);
                     int codigo = Integer.parseInt(tblResultado.getModel().getValueAt(selectedRow, 0).toString());
                     System.out.println(codigo);
-                    FlightDetailView resume = new FlightDetailView(codigo);
-                    resume.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                    resume.setVisible(true);
+                    try {
+                        FlightDetailView resume;
+                        resume = new FlightDetailView(codigo);
+                        resume.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                        resume.setVisible(true);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(FlightMainView.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    
                 }
             }
         });
@@ -295,10 +310,8 @@ public class FlightMainView extends javax.swing.JFrame
                     r.getFlightId(), r.getFlightDate(), r.getFlightHour(), r.getItineraryDeparture(), r.getItineraryDestination(), r.getFlightCost(), r.getAircraftCode(), r.getCompanyName()
                 });
             }
-            
-            
+                
             panelResultado.setVisible(true);
-            
         } 
         catch (SQLException ex) 
         {

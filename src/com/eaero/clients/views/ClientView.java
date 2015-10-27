@@ -24,6 +24,7 @@
 
 package com.eaero.clients.views;
 
+import com.eaero.Main;
 import com.eaero.clients.Client;
 import com.eaero.clients.models.ClientDAO;
 import java.sql.Date;
@@ -33,6 +34,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -43,6 +45,13 @@ public class ClientView extends javax.swing.JFrame {
     private ClientDAO clientDao = new ClientDAO();
 
     public ClientView() {
+        
+        setTitle("Clientes");
+        setIconImage(new ImageIcon(Main.class.getResource("views/images/icon_black.png")).getImage());
+        setResizable(false);
+        setLocation(300, 100);
+        setSize(745, 626);
+        
         try 
         {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());

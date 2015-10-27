@@ -24,6 +24,7 @@
 
 package com.eaero.tickets.views;
 
+import com.eaero.Main;
 import com.eaero.clients.views.ClientView;
 import com.eaero.tickets.TicketResume;
 import com.eaero.tickets.models.TicketResumeDAO;
@@ -33,6 +34,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -43,6 +45,12 @@ public class TicketMainView extends javax.swing.JFrame {
 
     public TicketMainView() 
     {
+        setTitle("Passagens");
+        setIconImage(new ImageIcon(Main.class.getResource("views/images/icon_black.png")).getImage());
+        setResizable(false);
+        setLocation(300, 100);
+        setSize(745, 626);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         
         try 
         {

@@ -23,6 +23,7 @@
  */
 package com.eaero.flights.views;
 
+import com.eaero.Main;
 import com.eaero.clients.Client;
 import com.eaero.clients.models.ClientDAO;
 import com.eaero.clients.views.ClientView;
@@ -39,6 +40,8 @@ import java.util.ArrayList;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -58,6 +61,13 @@ public class FlightDetailView extends javax.swing.JFrame {
     
     public FlightDetailView(int flightCode) throws SQLException 
     {
+        setTitle("Detalhes do Voo");
+        setIconImage(new ImageIcon(Main.class.getResource("views/images/icon_black.png")).getImage());
+        setResizable(false);
+        setLocation(300, 100);
+        setSize(745, 626);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        
         this.changeSwingToSystemLookAndFeel();
         
         initComponents();
@@ -616,6 +626,8 @@ public class FlightDetailView extends javax.swing.JFrame {
         newTicket.setFirstClass(ticketType.getFirstClass());
         newTicket.setFlightId(this.resume.getFlightId());
         newTicket.setClientId(this.client.getId());
+        
+        
         
         Payment newPayment = new Payment();
         newPayment.setMethodId(paymentMethod.getId());

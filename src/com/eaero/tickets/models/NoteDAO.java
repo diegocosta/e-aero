@@ -51,7 +51,7 @@ public class NoteDAO extends DataAccessObject {
     }
 
     public void create(Note item)  throws SQLException{
-        try (PreparedStatement stmt = this.query("SELECT INTO " + this.table + " (category_id, text, ticket_id) values (?,?,?)")) 
+        try (PreparedStatement stmt = this.query("INSERT INTO " + this.table + " (category_id, text, ticket_id) values (?,?,?)")) 
         {
             stmt.setInt(1, item.getCategoryId());
             stmt.setString(2, item.getText());

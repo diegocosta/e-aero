@@ -24,14 +24,16 @@
 
 package com.eaero.tickets.views;
 
+import com.eaero.Main;
 import com.eaero.clients.views.ClientView;
-import com.eaero.tickets.Ticket;
 import com.eaero.tickets.TicketResume;
 import com.eaero.tickets.models.TicketDAO;
 import com.eaero.tickets.models.TicketResumeDAO;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -40,9 +42,18 @@ public class TicketDetailView extends javax.swing.JFrame {
     private TicketResumeDAO ticketResumeDAO = new TicketResumeDAO();
     private TicketDAO ticketDAO = new TicketDAO();
     
+    private TicketResume resume = new TicketResume();
+    
     private int id;
     
-    public TicketDetailView(String code) throws SQLException {
+    public TicketDetailView(String code) throws SQLException 
+    {
+        setTitle("Detalhes da Passagem");
+        setIconImage(new ImageIcon(Main.class.getResource("views/images/icon_black.png")).getImage());
+        setResizable(false);
+        setLocation(300, 100);
+        setSize(745, 626);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         
         try 
         {
@@ -55,17 +66,17 @@ public class TicketDetailView extends javax.swing.JFrame {
         
         initComponents();
         
-        TicketResume resume = this.ticketResumeDAO.getResume(code);
+        this.resume = this.ticketResumeDAO.getResume(code);
         this.id = resume.getId();
         
-        txtClientName.setText(resume.getLastName() + ", " + resume.getFirstName());
-        txtBoardingDate.setText(resume.getDate());
-        txtBoardingTime.setText(resume.getHour().toString());
-        txtCompanyName.setText(resume.getCompany().toUpperCase());
-        txtFlightCode.setText(resume.getTicketCode().toUpperCase());
-        txtItineraryDeparture.setText(resume.getDeparture());
-        txtItineraryDestination.setText(resume.getDestination());
-        txtCode.setText(String.valueOf(resume.getId()));
+        txtClientName.setText(this.resume.getLastName() + ", " + resume.getFirstName());
+        txtBoardingDate.setText(this.resume.getDate());
+        txtBoardingTime.setText(this.resume.getHour().toString());
+        txtCompanyName.setText(this.resume.getCompany().toUpperCase());
+        txtFlightCode.setText(this.resume.getTicketCode().toUpperCase());
+        txtItineraryDeparture.setText(this.resume.getDeparture());
+        txtItineraryDestination.setText(this.resume.getDestination());
+        txtCode.setText(String.valueOf(this.resume.getId()));
     }
 
     @SuppressWarnings("unchecked")
@@ -317,6 +328,11 @@ public class TicketDetailView extends javax.swing.JFrame {
         });
 
         btnNotes.setText("Cadastrar Observações");
+        btnNotes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNotesActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -389,6 +405,12 @@ public class TicketDetailView extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btnCancelActionPerformed
+
+    private void btnNotesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNotesActionPerformed
+        NotesMainView nmv = new NotesMainView(this.resume.getId());
+        nmv.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        nmv.setVisible(true);
+    }//GEN-LAST:event_btnNotesActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
