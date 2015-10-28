@@ -23,8 +23,7 @@
  */
 package com.eaero.flights.views;
 
-import com.eaero.Main;
-import com.eaero.clients.views.ClientView;
+import com.eaero.ApplicationWindow;
 import com.eaero.flights.FlightResume;
 import com.eaero.flights.Routine;
 import com.eaero.flights.models.FlightResumeDAO;
@@ -35,34 +34,17 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
 
-public class FlightMainView extends javax.swing.JFrame 
+public class FlightMainView extends ApplicationWindow 
 {    
     private FlightResumeDAO flightResumeDAO = new FlightResumeDAO();
     private RoutineDAO routineDAO = new RoutineDAO();
     
     public FlightMainView() 
     {
-        setTitle("Voos");
-        setIconImage(new ImageIcon(Main.class.getResource("views/images/icon_black.png")).getImage());
-        setResizable(false);
-        setLocation(300, 100);
-        setSize(745, 626);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        
-        try 
-        {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } 
-        catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) 
-        {
-            Logger.getLogger(ClientView.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        super("Voos");
         
         initComponents();
         

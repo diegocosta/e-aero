@@ -23,10 +23,9 @@
  */
 package com.eaero.flights.views;
 
-import com.eaero.Main;
+import com.eaero.ApplicationWindow;
 import com.eaero.clients.Client;
 import com.eaero.clients.models.ClientDAO;
-import com.eaero.clients.views.ClientView;
 import com.eaero.flights.FlightResume;
 import com.eaero.flights.models.FlightResumeDAO;
 import com.eaero.tickets.Payment;
@@ -40,13 +39,9 @@ import java.util.ArrayList;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 
-public class FlightDetailView extends javax.swing.JFrame {
+public class FlightDetailView extends ApplicationWindow {
     
     private int flightCode;
     private int seats;
@@ -61,15 +56,8 @@ public class FlightDetailView extends javax.swing.JFrame {
     
     public FlightDetailView(int flightCode) throws SQLException 
     {
-        setTitle("Detalhes do Voo");
-        setIconImage(new ImageIcon(Main.class.getResource("views/images/icon_black.png")).getImage());
-        setResizable(false);
-        setLocation(300, 100);
-        setSize(745, 626);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        
-        this.changeSwingToSystemLookAndFeel();
-        
+        super("Detalhes do Voo");
+       
         initComponents();
         
         this.flightCode = flightCode;
@@ -77,16 +65,6 @@ public class FlightDetailView extends javax.swing.JFrame {
         
         this.initResumePage();
     }
-    
-    private void changeSwingToSystemLookAndFeel()
-    {
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(FlightDetailView.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
     
     private void initResumePage() throws SQLException
     {

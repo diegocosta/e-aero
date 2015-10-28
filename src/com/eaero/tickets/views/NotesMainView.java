@@ -24,25 +24,19 @@
 
 package com.eaero.tickets.views;
 
-import com.eaero.Main;
-import com.eaero.flights.views.FlightDetailView;
+import com.eaero.ApplicationWindow;
 import com.eaero.tickets.Note;
 import com.eaero.tickets.NoteCategory;
 import com.eaero.tickets.models.NoteCategoryDAO;
 import com.eaero.tickets.models.NoteDAO;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
 
-public class NotesMainView extends javax.swing.JFrame {
+public class NotesMainView extends ApplicationWindow 
+{
     
     private NoteCategoryDAO categoriesDAO = new NoteCategoryDAO();
     private NoteDAO noteDAO = new NoteDAO();
@@ -50,28 +44,13 @@ public class NotesMainView extends javax.swing.JFrame {
     
     public NotesMainView(int ticket_id) 
     {    
-        setTitle("Observações");
-        setIconImage(new ImageIcon(Main.class.getResource("views/images/icon_black.png")).getImage());
-        setResizable(false);
-        setLocation(300, 100);
-        setSize(745, 626);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        
-        this.changeSwingToSystemLookAndFeel();
+        super("Observações");
+       
         initComponents();
         
         this.ticket_id = ticket_id;
         this.initComboBoxCategories();
         this.initTableResult();
-    }
-    
-    private void changeSwingToSystemLookAndFeel()
-    {
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(FlightDetailView.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
     
     public void initTableResult()

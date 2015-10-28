@@ -23,6 +23,7 @@
  */
 package com.eaero.views;
 
+import com.eaero.ApplicationWindow;
 import com.eaero.clients.views.ClientView;
 import com.eaero.flights.views.FlightMainView;
 import com.eaero.flights.views.FlightManagerView;
@@ -30,23 +31,12 @@ import com.eaero.tickets.views.TicketMainView;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFrame;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 
-public class MainView extends javax.swing.JFrame {
+public class MainView extends ApplicationWindow {
 
     public MainView() 
     {
-        try 
-        {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } 
-        catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) 
-        {
-            Logger.getLogger(ClientView.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
+        super("AeroApp");
         initComponents();
     }
 
@@ -215,32 +205,28 @@ public class MainView extends javax.swing.JFrame {
 
     private void btnClientLauncherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClientLauncherActionPerformed
         ClientView cv = new ClientView();
-        cv.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        cv.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
         cv.setVisible(true);
     }//GEN-LAST:event_btnClientLauncherActionPerformed
 
     private void btnFlightLauncherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFlightLauncherActionPerformed
         FlightMainView cv = new FlightMainView();
-        cv.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        cv.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
         cv.setVisible(true);
     }//GEN-LAST:event_btnFlightLauncherActionPerformed
 
     private void btnTicketLauncherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTicketLauncherActionPerformed
         TicketMainView cv = new TicketMainView();
-        cv.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        cv.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
         cv.setVisible(true);
     }//GEN-LAST:event_btnTicketLauncherActionPerformed
 
     private void btnFlightManagerLauncherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFlightManagerLauncherActionPerformed
-
-        try 
-        {
-            
+        try {
             FlightManagerView cv = new FlightManagerView();
-            cv.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            cv.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
             cv.setVisible(true);
-        } 
-        catch (SQLException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(MainView.class.getName()).log(Level.SEVERE, null, ex);
         }
         

@@ -23,8 +23,7 @@
  */
 package com.eaero.flights.views;
 
-import com.eaero.Main;
-import com.eaero.clients.views.ClientView;
+import com.eaero.ApplicationWindow;
 import com.eaero.flights.Aircraft;
 import com.eaero.flights.Flight;
 import com.eaero.flights.Routine;
@@ -38,12 +37,9 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 
-public class FlightManagerView extends javax.swing.JFrame 
+public class FlightManagerView extends ApplicationWindow 
 {    
     public ItineraryDAO itinerarioDAO = new ItineraryDAO();
     public Itinerary itinerary = new Itinerary();
@@ -59,20 +55,7 @@ public class FlightManagerView extends javax.swing.JFrame
 
     public FlightManagerView() throws SQLException 
     {
-        setTitle("Gerenciador de Voos");
-        setIconImage(new ImageIcon(Main.class.getResource("views/images/icon_black.png")).getImage());
-        setResizable(false);
-        setLocation(300, 100);
-        setSize(745, 626);
-        
-        try 
-        {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } 
-        catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) 
-        {
-            Logger.getLogger(ClientView.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        super("Gerenciador de Voos");
         
         initComponents();
         
