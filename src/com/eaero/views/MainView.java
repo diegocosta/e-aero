@@ -27,6 +27,7 @@ import com.eaero.ApplicationWindow;
 import com.eaero.clients.views.ClientView;
 import com.eaero.flights.views.FlightMainView;
 import com.eaero.flights.views.FlightManagerView;
+import com.eaero.payments.views.PaymentMainView;
 import com.eaero.tickets.views.TicketMainView;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -56,6 +57,8 @@ public class MainView extends ApplicationWindow {
         btnFlightManagerLauncher = new javax.swing.JButton();
         btnPaymentsLauncher = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -68,16 +71,16 @@ public class MainView extends ApplicationWindow {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(32, 32, 32)
                 .addComponent(jLabel6)
-                .addGap(20, 20, 20))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
+                .addGap(24, 24, 24)
                 .addComponent(jLabel6)
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         btnClientLauncher.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/eaero/views/images/1445961180_group2.png"))); // NOI18N
@@ -127,6 +130,10 @@ public class MainView extends ApplicationWindow {
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel4.setText("Clientes");
 
+        jLabel5.setText("Desenvolvimento: Diego Costa, Eugênio Santos, Jeferson Almeida e Angelo Santos");
+
+        jLabel7.setText("Orientadora: Professora Ana Patrícia");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -139,23 +146,24 @@ public class MainView extends ApplicationWindow {
                 .addComponent(jLabel3)
                 .addGap(104, 104, 104))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(48, 48, 48)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnFlightManagerLauncher, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(48, 48, 48)
+                        .addComponent(btnClientLauncher)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnFlightLauncher)
+                        .addGap(79, 79, 79)
+                        .addComponent(btnTicketLauncher))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(btnPaymentsLauncher, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jSeparator1)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnClientLauncher)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
-                                .addComponent(btnFlightLauncher)
-                                .addGap(79, 79, 79)
-                                .addComponent(btnTicketLauncher))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnPaymentsLauncher, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))))
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel7))
+                        .addGap(109, 109, 109)
+                        .addComponent(btnFlightManagerLauncher, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(57, 57, 57))
             .addGroup(layout.createSequentialGroup()
                 .addGap(84, 84, 84)
@@ -191,7 +199,12 @@ public class MainView extends ApplicationWindow {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnFlightManagerLauncher, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnFlightManagerLauncher, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel7)))
                 .addGap(16, 16, 16))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
@@ -233,7 +246,9 @@ public class MainView extends ApplicationWindow {
     }//GEN-LAST:event_btnFlightManagerLauncherActionPerformed
 
     private void btnPaymentsLauncherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPaymentsLauncherActionPerformed
-        // TODO add your handling code here:
+        PaymentMainView cv = new PaymentMainView();
+        cv.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
+        cv.setVisible(true);
     }//GEN-LAST:event_btnPaymentsLauncherActionPerformed
 
     public static void main(String args[]) {
@@ -252,7 +267,9 @@ public class MainView extends ApplicationWindow {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JSeparator jSeparator1;
     // End of variables declaration//GEN-END:variables
