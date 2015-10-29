@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package com.eaero.tickets;
+package com.eaero.payments;
 
 public class PaymentMethod 
 {    

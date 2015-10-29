@@ -46,7 +46,7 @@ public class TicketMainView extends ApplicationWindow
         
         initComponents();
         
-        this.initTableResult();
+        initTableResult();
     }
     
     private void initTableResult() 

@@ -22,10 +22,10 @@
  * THE SOFTWARE.
  */
 
-package com.eaero.tickets.models;
+package com.eaero.payments.models;
 
 import com.eaero.DataAccessObject;
-import com.eaero.tickets.PaymentMethod;
+import com.eaero.payments.PaymentMethod;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

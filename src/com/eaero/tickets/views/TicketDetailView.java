@@ -49,12 +49,16 @@ public class TicketDetailView extends ApplicationWindow
     public TicketDetailView(String code) throws SQLException 
     {
         super("Detalhes da Passagem");
-
-        initComponents();
         
         this.resume = this.ticketResumeDAO.getResume(code);
         this.id = resume.getId();
         
+        initComponents();
+        initTicket();
+    }
+    
+    public void initTicket()
+    {
         txtClientName.setText(this.resume.getLastName() + ", " + resume.getFirstName());
         txtBoardingDate.setText(this.resume.getDate());
         txtBoardingTime.setText(this.resume.getHour().toString());

@@ -43,14 +43,14 @@ public class NotesMainView extends ApplicationWindow
     private int ticket_id;
     
     public NotesMainView(int ticket_id) 
-    {    
+    {   
         super("Observações");
-       
-        initComponents();
         
         this.ticket_id = ticket_id;
-        this.initComboBoxCategories();
-        this.initTableResult();
+       
+        initComponents();
+        initComboBoxCategories();
+        initTableResult();
     }
     
     public void initTableResult()

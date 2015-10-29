@@ -28,11 +28,11 @@ import com.eaero.clients.Client;
 import com.eaero.clients.models.ClientDAO;
 import com.eaero.flights.FlightResume;
 import com.eaero.flights.models.FlightResumeDAO;
-import com.eaero.tickets.Payment;
-import com.eaero.tickets.PaymentMethod;
+import com.eaero.payments.Payment;
+import com.eaero.payments.PaymentMethod;
 import com.eaero.tickets.Ticket;
 import com.eaero.tickets.TicketType;
-import com.eaero.tickets.models.PaymentMethodDAO;
+import com.eaero.payments.models.PaymentMethodDAO;
 import com.eaero.tickets.models.TicketDAO;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -407,8 +407,6 @@ public class FlightDetailView extends ApplicationWindow {
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Comprar Passagens"));
 
         jLabel10.setText("Informe um e-mail válido");
-
-        txtEmail.setText("diego@diegocosta.com.br");
 
         btnContinuar.setText("Continuar");
         btnContinuar.addActionListener(new java.awt.event.ActionListener() {
