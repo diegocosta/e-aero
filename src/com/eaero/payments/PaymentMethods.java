@@ -21,11 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+package com.eaero.payments;
 
-package com.eaero.tickets;
-
-public class PaymentMethod 
-{    
+public class PaymentMethods 
+{
     private int id;
     private String label;
 
@@ -50,4 +49,5 @@ public class PaymentMethod
     {
         return this.label;
     }
+    
 }

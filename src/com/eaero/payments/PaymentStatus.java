@@ -22,10 +22,10 @@
  * THE SOFTWARE.
  */
 
-package com.eaero.tickets;
+package com.eaero.payments;
 
-public class PaymentMethod 
-{    
+public class PaymentStatus 
+{
     private int id;
     private String label;
 

@@ -24,13 +24,118 @@
 package com.eaero.payments.views;
 
 import com.eaero.ApplicationWindow;
+import com.eaero.payments.PaymentResume;
+import com.eaero.payments.PaymentStatus;
+import com.eaero.payments.models.PaymentResumeDAO;
+import com.eaero.payments.models.PaymentStatusDAO;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
 
 public class PaymentMainView extends ApplicationWindow 
 {
-
+    public PaymentStatusDAO paymentStatusDAO = new PaymentStatusDAO();
+    public PaymentResumeDAO paymentResumeDAO = new PaymentResumeDAO();
+    
     public PaymentMainView() {
         super("Pagamentos");
         initComponents();
+        initComboBoxStatuses();
+        initResultTable();
+        showResultTable();
+    }
+    
+    public void initComboBoxStatuses()
+    {
+        comboboxStatuses.removeAllItems();
+        
+        try 
+        {
+            for(PaymentStatus status : this.paymentStatusDAO.read())
+            {
+                comboboxStatuses.addItem(status);
+            }
+        } 
+        catch (SQLException ex) {
+            Logger.getLogger(PaymentMainView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void initResultTable()
+    {
+        tblResult.setAutoscrolls(true);
+        tblResult.setModel(new DefaultTableModel(
+            new Object[][] {},
+            new String[]{  "ID", "Cliente", "Passagem", "Origem", "Destino", "Data", "Hora", "Status" }
+            ){
+                @Override
+                public boolean isCellEditable(int i, int i1) {
+                    return false; 
+                }
+
+        });
+        
+        tblResult.addMouseListener(new MouseAdapter() 
+        {
+            @Override
+            public void mousePressed(MouseEvent me) 
+            {
+                if (me.getClickCount() == 2) 
+                {
+                    int selectedRow = tblResult.getSelectedRow();
+                    selectedRow = tblResult.convertRowIndexToModel(selectedRow);
+                    int codigo = Integer.parseInt(tblResult.getModel().getValueAt(selectedRow, 0).toString());
+                    String status = tblResult.getModel().getValueAt(selectedRow, 7).toString();
+                    
+                    try 
+                    {
+                        PaymentStatusDAO paymentStatusDAO = new PaymentStatusDAO();
+                        PaymentResumeDAO paymentResumeDAO = new PaymentResumeDAO();
+                                
+                        int newStatus = (paymentStatusDAO.getIdByLabel(status) == 1) ? 2 : 1;
+                        
+                        paymentResumeDAO.changeStatusById(codigo, newStatus);
+                        
+                        showResultTable();
+                    
+                    } 
+                    catch (SQLException ex) 
+                    {
+                        Logger.getLogger(PaymentMainView.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    
+                }
+            }
+        });
+    }
+    
+    public void showResultTable()
+    {
+        DefaultTableModel tabela = (DefaultTableModel) tblResult.getModel();
+        PaymentStatus status = (PaymentStatus) comboboxStatuses.getSelectedItem();
+            
+        while(tabela.getRowCount() > 0){
+            tabela.removeRow(0);
+        }
+        
+        try 
+        {
+            ArrayList<PaymentResume> resultado = this.paymentResumeDAO.getResume(status.getId());
+            
+            resultado.stream().forEach((item) -> {
+                tabela.addRow(new Object[]{
+                   item.getId(), item.getClientFirstName() + " " + item.getClientLastName(), item.getTicketNumber(), item.getDeparture(), item.getDestination(), item.getFlightDate(), item.getFlightHour(), item.getStatusName()
+                });
+            });
+            
+        } 
+        catch (SQLException ex) {
+            Logger.getLogger(PaymentMainView.class.getName()).log(Level.SEVERE, null, ex);
+        }    
     }
 
     @SuppressWarnings("unchecked")
@@ -41,15 +146,11 @@ public class PaymentMainView extends ApplicationWindow
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox();
-        jButton1 = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        comboboxStatuses = new javax.swing.JComboBox();
+        btnFilter = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblResult = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -87,19 +188,16 @@ public class PaymentMainView extends ApplicationWindow
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Buscar por Pagamentos"));
 
-        jTextField1.setText("jTextField1");
+        comboboxStatuses.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jTextField2.setText("jTextField2");
+        btnFilter.setText("Filtrar");
+        btnFilter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFilterActionPerformed(evt);
+            }
+        });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jButton1.setText("jButton1");
-
-        jLabel1.setText("jLabel1");
-
-        jLabel2.setText("jLabel2");
-
-        jLabel3.setText("jLabel3");
+        jLabel3.setText("Status do Pagamento");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -108,18 +206,10 @@ public class PaymentMainView extends ApplicationWindow
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(comboboxStatuses, javax.swing.GroupLayout.PREFERRED_SIZE, 518, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE))
+                        .addComponent(btnFilter, javax.swing.GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -129,20 +219,15 @@ public class PaymentMainView extends ApplicationWindow
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(15, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3))
+                .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextField1)
-                    .addComponent(jTextField2)
-                    .addComponent(jComboBox1)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(comboboxStatuses)
+                    .addComponent(btnFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblResult.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -153,7 +238,7 @@ public class PaymentMainView extends ApplicationWindow
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblResult);
 
         jLabel4.setText("Dê duplo clique para alterar o status do pagamento");
 
@@ -188,6 +273,10 @@ public class PaymentMainView extends ApplicationWindow
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFilterActionPerformed
+        showResultTable();
+    }//GEN-LAST:event_btnFilterActionPerformed
+
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(() -> {
             new PaymentMainView().setVisible(true);
@@ -195,10 +284,8 @@ public class PaymentMainView extends ApplicationWindow
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox jComboBox1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JButton btnFilter;
+    private javax.swing.JComboBox comboboxStatuses;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
@@ -206,8 +293,6 @@ public class PaymentMainView extends ApplicationWindow
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTable tblResult;
     // End of variables declaration//GEN-END:variables
 }
