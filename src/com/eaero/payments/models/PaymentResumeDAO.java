@@ -40,19 +40,19 @@ public class PaymentResumeDAO extends DataAccessObject
         ArrayList<PaymentResume> list = new ArrayList<>();
         
         try(PreparedStatement stmt = this.query("SELECT  payment.id AS payment_id," + 
-                " payment.status AS payment_status, method.label AS method_name, " +
+                " payment.status_id AS payment_status, method.label AS method_name, " +
                 " status.label AS status_name, ticket.id AS ticket_id, " + 
                 " ticket.number AS ticket_number, ticket.firstClass AS ticket_firstClass, " + 
                 "flight.cost AS flight_cost, flight.date AS flight_date, flight.hour AS flight_hour, " + 
                 "client.firstName AS client_firstname, client.lastName AS client_lastname, itinerary.departure AS departure, " + 
                 "itinerary.destination AS destination FROM aeroapp.payments AS payment " + 
                 "LEFT JOIN payments_methods AS method ON method.id =  payment.method_id " + 
-                "LEFT JOIN payments_statuses AS status ON status.id = payment.status " + 
+                "LEFT JOIN payments_statuses AS status ON status.id = payment.status_id " + 
                 "LEFT JOIN tickets AS ticket ON ticket.id = payment.ticket_id " + 
                 "LEFT JOIN flights AS flight ON flight.id = ticket.flight_id " + 
                 "LEFT JOIN clients AS client ON client.id = ticket.client_id " + 
                 "LEFT JOIN itineraries AS itinerary ON itinerary.id = flight.itinerary_id " +
-                "WHERE payment.status = " + status + ";")){
+                "WHERE payment.status_id = " + status + ";")){
             
                 ResultSet rs = stmt.executeQuery();
 
@@ -85,7 +85,7 @@ public class PaymentResumeDAO extends DataAccessObject
     
     public void changeStatusById(Integer id, Integer status) throws SQLException
     {
-        try(PreparedStatement stmt = this.query("UPDATE " + this.table + " SET status=? WHERE id=?"))
+        try(PreparedStatement stmt = this.query("UPDATE " + this.table + " SET status_id=? WHERE id=?"))
         {
             stmt.setInt(1, status);
             stmt.setInt(2, id);

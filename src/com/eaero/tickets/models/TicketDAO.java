@@ -113,13 +113,20 @@ public class TicketDAO extends DataAccessObject {
     }
     
     public Ticket findById(Integer id) throws SQLException {
-        return this.find("SELECT * FROM " + this.table + " WHERE id = " + id + " LIMIT 1").get(0);
+        ArrayList<Ticket> result = this.find("SELECT * FROM " + this.table + " WHERE id = " + id + " LIMIT 1");
+        return (result.size() > 0) ? result.get(0) : null;
     }
+    
     
     public Ticket findByFlight(Integer flight_id) throws SQLException {
-        return this.find("SELECT * FROM " + this.table + " WHERE flight_id = " + flight_id + " LIMIT 1").get(0);
+        ArrayList<Ticket> result = this.find("SELECT * FROM " + this.table + " WHERE flight_id = " + flight_id + " LIMIT 1");
+        return (result.size() > 0) ? result.get(0) : null;
     }
     
+    public int getTicketIdByNumber(String number) throws SQLException {
+        ArrayList<Ticket> result = this.find("SELECT * FROM " + this.table + " WHERE number = '" + number + "'");
+        return (result.size() > 0) ? result.get(0).getId() : null;
+    }
     
     
 }

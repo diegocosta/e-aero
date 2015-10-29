@@ -30,6 +30,7 @@ import com.eaero.flights.FlightResume;
 import com.eaero.flights.models.FlightResumeDAO;
 import com.eaero.payments.Payment;
 import com.eaero.payments.PaymentMethod;
+import com.eaero.payments.models.PaymentDAO;
 import com.eaero.tickets.Ticket;
 import com.eaero.tickets.TicketType;
 import com.eaero.payments.models.PaymentMethodDAO;
@@ -53,6 +54,7 @@ public class FlightDetailView extends ApplicationWindow {
     private ClientDAO clientDAO = new ClientDAO();
     private FlightResumeDAO flightResumeDAO = new FlightResumeDAO();
     private TicketDAO ticketDAO = new TicketDAO();
+    private PaymentDAO paymentDAO = new PaymentDAO();
     
     public FlightDetailView(int flightCode) throws SQLException 
     {
@@ -596,20 +598,15 @@ public class FlightDetailView extends ApplicationWindow {
         
         TicketType ticketType = (TicketType) comboboxTicketType.getSelectedItem();
         PaymentMethod paymentMethod = (PaymentMethod) comboboxPaymentOptions.getSelectedItem();
-
+        
+        String ticket_number = UUID.randomUUID().toString().substring(0, 6);
+        
         Ticket newTicket = new Ticket();
-        newTicket.setNumber(UUID.randomUUID().toString().substring(0, 6));
+        newTicket.setNumber(ticket_number);
         newTicket.setFirstClass(ticketType.getFirstClass());
         newTicket.setFlightId(this.resume.getFlightId());
         newTicket.setClientId(this.client.getId());
-        
-        
-        
-        Payment newPayment = new Payment();
-        newPayment.setMethodId(paymentMethod.getId());
-        newPayment.setStatus(0);
-        newPayment.setTicketId(seats);
-        
+
         try 
         {
             this.ticketDAO.create(newTicket);
@@ -623,6 +620,14 @@ public class FlightDetailView extends ApplicationWindow {
                 int cost = (ticketType.getFirstClass()) ? this.resume.getCostInPoints(this.resume.getCostFirstClass()) : this.resume.getCostInPoints();
                 this.clientDAO.removeFidelityPoints(this.client.getId(), cost);
             }
+            
+            Payment newPayment = new Payment();
+            newPayment.setMethodId(paymentMethod.getId());
+            newPayment.setStatus(1);
+            newPayment.setTicketId(this.ticketDAO.getTicketIdByNumber(ticket_number));
+            
+            this.paymentDAO.create(newPayment);
+            
             
             JOptionPane.showMessageDialog(null, "Sua Passagem foi comprada", "Passagem", JOptionPane.INFORMATION_MESSAGE);
         } 
