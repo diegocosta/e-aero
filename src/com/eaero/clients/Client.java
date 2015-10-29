@@ -26,8 +26,8 @@ package com.eaero.clients;
 
 import java.sql.Date;
 
-public class Client {
-    
+public class Client 
+{    
     private int id;
     private String email;
     private String firstName;
@@ -36,59 +36,73 @@ public class Client {
     private String document;
     private int fidelity;
 
-    public int getId() {
+    public int getId() 
+    {
         return id;
     }
     
-    public void setId(int id) {
+    public void setId(int id) 
+    {
         this.id = id;
     }
 
-    public String getEmail() {
+    public String getEmail() 
+    {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(String email) 
+    {
         this.email = email;
     }
 
-    public String getFirstName() {
+    public String getFirstName() 
+    {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
+    public void setFirstName(String firstName) 
+    {
         this.firstName = firstName;
     }
 
-    public String getLastName() {
+    public String getLastName() 
+    {
         return lastName;
     }
 
-    public void setLastName(String lastName) {
+    public void setLastName(String lastName) 
+    {
         this.lastName = lastName;
     }
 
-    public Date getBirthdate() {
+    public Date getBirthdate() 
+    {
         return birthdate;
     }
 
-    public void setBirthdate(Date birthdate) {
+    public void setBirthdate(Date birthdate) 
+    {
         this.birthdate = birthdate;
     }
 
-    public String getDocument() {
+    public String getDocument() 
+    {
         return document;
     }
 
-    public void setDocument(String document) {
+    public void setDocument(String document) 
+    {
         this.document = document;
     }
 
-    public int getFidelity() {
+    public int getFidelity() 
+    {
         return fidelity;
     }
 
-    public void setFidelity(int fidelity) {
+    public void setFidelity(int fidelity) 
+    {
         this.fidelity = fidelity;
     }
     

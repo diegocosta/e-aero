@@ -32,20 +32,24 @@ public abstract class DataAccessObject
 {
     protected Connection connection;
     
-    public DataAccessObject() {
+    public DataAccessObject() 
+    {
         this.connection = this.getConnection();
     }
     
     public Connection getConnection()
     {
-        try {
+        try 
+        {
             return DriverManager.getConnection("jdbc:mysql://localhost/aeroapp", "root", "root");
-        } catch (SQLException ex) {
+        } 
+        catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
     }
     
-    public PreparedStatement query(String query) throws SQLException {
+    public PreparedStatement query(String query) throws SQLException 
+    {
         return this.connection.prepareStatement(query);
     }
     

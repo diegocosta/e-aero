@@ -36,9 +36,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
-public class ClientView extends ApplicationWindow {
-    
-    private Client client;
+public class ClientView extends ApplicationWindow 
+{
+    private Client client = new Client();
     private ClientDAO clientDao = new ClientDAO();
 
     public ClientView() 
@@ -266,7 +266,8 @@ public class ClientView extends ApplicationWindow {
         
         String email = txtEmail.getText();
         
-        if(email.isEmpty() || !email.contains("@")){
+        if(email.isEmpty() || !email.contains("@"))
+        {
             JOptionPane.showMessageDialog(null, "Informe um e-mail válido", "email", JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -275,10 +276,12 @@ public class ClientView extends ApplicationWindow {
         panelInformation.setVisible(true);
         btnExcluir.setVisible(false);
         
-        try {
+        try 
+        {
             this.client = this.clientDao.findByEmail(txtEmail.getText());
             
-            if(this.client == null){
+            if(this.client == null)
+            {
                 System.out.println("Client não encontrado");
                 
                 txtFirstName.setText("");
@@ -286,11 +289,10 @@ public class ClientView extends ApplicationWindow {
                 txtBirthdate.setText("");
                 txtDocument.setText("");
                 txtFidelity.setText("");
-                
-                
                 btnAcao.setText("Cadastrar Cliente");
             }
-            else {
+            else 
+            {
                 System.out.println("Cliente encontrado: " + this.client.getFirstName());
                 
                 txtFirstName.setText(this.client.getFirstName());
@@ -298,11 +300,11 @@ public class ClientView extends ApplicationWindow {
                 txtBirthdate.setText(this.client.getBirthdate().toString());
                 txtDocument.setText(this.client.getDocument());
                 txtFidelity.setText(String.valueOf(this.client.getFidelity()));
-                
                 btnAcao.setText("Atualizar Cliente");
                 btnExcluir.setVisible(true);
             }
-        } catch (SQLException ex) {
+        } 
+        catch (SQLException ex) {
             Logger.getLogger(ClientView.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnContinueEmailActionPerformed
@@ -310,13 +312,16 @@ public class ClientView extends ApplicationWindow {
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
         if(JOptionPane.showConfirmDialog(null, "Você quer apagar o cliente " + this.client.getFirstName() + "?", "Atenção", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == 0)
         {
-            try {
+            try 
+            {
                 this.clientDao.delete(this.client);
                 this.client = null;
                 JOptionPane.showMessageDialog(null, "A conta do cliente foi apagada", "Cliente Apagado", JOptionPane.INFORMATION_MESSAGE);
                 panelInformation.setVisible(false);
                 txtEmail.setText("");
-            } catch (SQLException ex) {
+            } 
+            catch (SQLException ex) 
+            {
                 Logger.getLogger(ClientView.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -326,9 +331,12 @@ public class ClientView extends ApplicationWindow {
         DateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
         Date data = new Date(new java.util.Date().getTime());
         
-        try {
+        try 
+        {
             data = new Date(fmt.parse(txtBirthdate.getText()).getTime());
-        } catch (ParseException ex) {
+        } 
+        catch (ParseException ex) 
+        {
             Logger.getLogger(ClientView.class.getName()).log(Level.SEVERE, null, ex);
         }
         
@@ -340,7 +348,8 @@ public class ClientView extends ApplicationWindow {
         novoCliente.setEmail(txtEmail.getText());
         novoCliente.setFidelity(Integer.valueOf(txtFidelity.getText()));
         
-        try {
+        try 
+        {
             if(this.client == null)
             {
                 this.clientDao.create(novoCliente);

@@ -39,8 +39,7 @@ public class ApplicationWindow extends javax.swing.JFrame
         setResizable(false);
         setLocation(300, 100);
         setSize(745, 626);
-        
-        this.changeLookAndFeel();
+        changeLookAndFeel();
     }
     
     public void changeLookAndFeel()
