@@ -31,13 +31,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class ClientDAO extends DataAccessObject {
+public class ClientDAO extends DataAccessObject 
+{
     private String table = "clients";
     
-    private ArrayList<Client> toList(ResultSet resultset) throws SQLException{
+    private ArrayList<Client> toList(ResultSet resultset) throws SQLException
+    {
         ArrayList<Client> list = new ArrayList<>();
         
-        while(resultset.next()) {
+        while(resultset.next()) 
+        {
             Client item = new Client();
             
             item.setId(resultset.getInt("id"));
@@ -56,7 +59,8 @@ public class ClientDAO extends DataAccessObject {
         return list;
     }
 
-    public void create(Client item)  throws SQLException{
+    public void create(Client item)  throws SQLException
+    {
         try (PreparedStatement stmt = this.query("INSERT INTO " + this.table + " (email, firstName, lastName, birthdate, document, fidelity) VALUES (?,?,?,?,?,?)")) 
         {
             stmt.setString(1, item.getEmail());
@@ -70,8 +74,10 @@ public class ClientDAO extends DataAccessObject {
         } 
     }
 
-    public ArrayList<Client> read() throws SQLException {
+    public ArrayList<Client> read() throws SQLException 
+    {
         ArrayList<Client> list;
+        
         try (PreparedStatement stmt = this.query("SELECT * FROM " + this.table)) 
         {
             ResultSet rs = stmt.executeQuery();
@@ -81,7 +87,8 @@ public class ClientDAO extends DataAccessObject {
         return list;
     }
 
-    public void update(Client item) throws SQLException {
+    public void update(Client item) throws SQLException 
+    {
         try(PreparedStatement stmt = this.query("UPDATE " + this.table + " SET email=?, firstName=?, lastName=?, birthdate=?, document=?, fidelity=? WHERE id=?")) 
         {
             stmt.setString(1, item.getEmail());
@@ -96,7 +103,8 @@ public class ClientDAO extends DataAccessObject {
         }
     }
 
-    public void delete(Client item) throws SQLException {
+    public void delete(Client item) throws SQLException 
+    {
         try(PreparedStatement stmt = this.query("DELETE FROM " + this.table + " WHERE id=?")) 
         {
             stmt.setInt(1, item.getId());
@@ -105,8 +113,10 @@ public class ClientDAO extends DataAccessObject {
         }
     }
     
-    private ArrayList<Client> find(String query) throws SQLException {
+    private ArrayList<Client> find(String query) throws SQLException 
+    {
         ArrayList<Client> list;
+        
         try(PreparedStatement stmt = this.query(query))
         {
             ResultSet rs = stmt.executeQuery();
@@ -117,19 +127,24 @@ public class ClientDAO extends DataAccessObject {
         return list;
     }
     
-    public Client findById(Integer id) throws SQLException {
+    public Client findById(Integer id) throws SQLException 
+    {
         ArrayList<Client> result = this.find("SELECT * FROM " + this.table + " WHERE id = " + id + " LIMIT 1");
+        
         return (result.size() > 0) ? result.get(0) : null;
     }
     
-    public Client findByEmail(String email) throws SQLException {
+    public Client findByEmail(String email) throws SQLException 
+    {
         ArrayList<Client> result = this.find("SELECT * FROM " + this.table + " WHERE email = '" + email + "' LIMIT 1");
+        
         return (result.size() > 0) ? result.get(0) : null;
     }
     
     public int fetchFidelityPoints(int client_id) throws SQLException
     {
         int points = 0;
+        
         try(PreparedStatement stmt = this.query("SELECT fidelity FROM " + this.table + " WHERE id =? LIMIT 1"))
         {
             stmt.setInt(1, client_id);
@@ -140,7 +155,9 @@ public class ClientDAO extends DataAccessObject {
             {
                 points = rs.getInt("fidelity");
             }
+            
         }
+        
         return points;
     }
     
