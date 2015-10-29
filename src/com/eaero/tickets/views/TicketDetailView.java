@@ -27,6 +27,7 @@ package com.eaero.tickets.views;
 import com.eaero.ApplicationWindow;
 import com.eaero.clients.views.ClientView;
 import com.eaero.tickets.TicketResume;
+import com.eaero.tickets.models.NoteDAO;
 import com.eaero.tickets.models.TicketDAO;
 import com.eaero.tickets.models.TicketResumeDAO;
 import java.sql.SQLException;
@@ -39,6 +40,7 @@ public class TicketDetailView extends ApplicationWindow
 {
     private TicketResumeDAO ticketResumeDAO = new TicketResumeDAO();
     private TicketDAO ticketDAO = new TicketDAO();
+    private NoteDAO noteDAO = new NoteDAO();
     
     private TicketResume resume = new TicketResume();
     
@@ -371,7 +373,7 @@ public class TicketDetailView extends ApplicationWindow
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCheckinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCheckinActionPerformed
-        JOptionPane.showMessageDialog(null, "Já está querendo demais né?", "Check-In", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Quem sabe na próxima versão?", "Check-In", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btnCheckinActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed

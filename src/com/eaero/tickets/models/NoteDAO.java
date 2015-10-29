@@ -29,6 +29,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class NoteDAO extends DataAccessObject {
     private String table = "notes";
@@ -115,5 +117,16 @@ public class NoteDAO extends DataAccessObject {
     
     public ArrayList<Note> findByTicketId(int ticket_id) throws SQLException {
         return this.find("SELECT * FROM " + this.table + " WHERE ticket_id = " + ticket_id);
+    }
+    
+    public void deleteByTicketId(int ticket_id)
+    {
+        try 
+        {
+            this.query("DELETE FROM " + this.table + " WHERE ticket_id = " + ticket_id);
+        } 
+        catch (SQLException ex) {
+            Logger.getLogger(NoteDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

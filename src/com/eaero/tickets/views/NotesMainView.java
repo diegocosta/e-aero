@@ -205,6 +205,12 @@ public class NotesMainView extends ApplicationWindow
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         
+        if(txtObs.getText().isEmpty())
+        {
+            JOptionPane.showMessageDialog(null, "O Campo de anotação não pode estar vázio", "Anotação", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
         NoteCategory category = (NoteCategory) comboboxCategories.getSelectedItem();
         
         Note newNote = new Note();
@@ -212,7 +218,8 @@ public class NotesMainView extends ApplicationWindow
         newNote.setText(txtObs.getText());
         newNote.setTicketId(this.ticket_id);
         
-        try {
+        try 
+        {
             this.noteDAO.create(newNote);
             JOptionPane.showMessageDialog(null, "Anotação salva com sucesso", "Anotação", JOptionPane.INFORMATION_MESSAGE);
         } 
