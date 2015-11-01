@@ -241,7 +241,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel5">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Desenvolvimento: Diego Costa, Eug&#xea;nio Santos, Jeferson Almeida e Angelo Santos"/>
+        <Property name="text" type="java.lang.String" value="Desenvolvimento: Diego Costa, Eug&#xea;nio Santos, Jeferson Almeida e Angelo Neves"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel7">

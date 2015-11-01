@@ -130,7 +130,7 @@ public class MainView extends ApplicationWindow {
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel4.setText("Clientes");
 
-        jLabel5.setText("Desenvolvimento: Diego Costa, Eugênio Santos, Jeferson Almeida e Angelo Santos");
+        jLabel5.setText("Desenvolvimento: Diego Costa, Eugênio Santos, Jeferson Almeida e Angelo Neves");
 
         jLabel7.setText("Orientadora: Professora Ana Patrícia");
 

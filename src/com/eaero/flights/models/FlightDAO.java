@@ -128,5 +128,4 @@ public class FlightDAO extends DataAccessObject {
         return (result.size() > 0 ) ? result.get(0) : null;
     }
     
-    
 }
