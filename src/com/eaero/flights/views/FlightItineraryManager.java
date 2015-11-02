@@ -26,24 +26,70 @@ package com.eaero.flights.views;
 
 
 import com.eaero.ApplicationWindow;
+import com.eaero.flights.FlightResume;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import com.eaero.flights.Itinerary;
+import com.eaero.flights.models.FlightResumeDAO;
 import com.eaero.flights.models.ItineraryDAO;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 
 public class FlightItineraryManager extends ApplicationWindow 
 {
     public Itinerary itinerary =  new Itinerary();
     public ItineraryDAO itineraryDao = new ItineraryDAO();
+    private FlightResumeDAO flightResumeDAO = new FlightResumeDAO();
+    
     
     public FlightItineraryManager() {
         super("Itinerários");
         initComponents();
+        this.initTableResult();
     }
+ public void initTableResult()
+    {
+        panelResultado.setVisible(false);
+        tblResultado.setAutoscrolls(true);
+        tblResultado.setModel(new DefaultTableModel(
+            new Object[][] {},
+            new String[]{  "ID", "Codigo",  "Origem", "Destino", "Duração"}
+            ){
+                @Override
+                public boolean isCellEditable(int i, int i1) {
+                    return false; 
+                }
 
+        });
+        
+
+        tblResultado.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent me) {
+                if (me.getClickCount() == 2) {
+                    int selectedRow = tblResultado.getSelectedRow();
+                    selectedRow = tblResultado.convertRowIndexToModel(selectedRow);
+                    int codigo = Integer.parseInt(tblResultado.getModel().getValueAt(selectedRow, 0).toString());
+                    System.out.println(codigo);
+                    try {
+                        FlightDetailView resume;
+                        resume = new FlightDetailView(codigo);
+                        resume.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                        resume.setVisible(true);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(FlightItineraryManager.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    
+                }
+            }
+        });
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -63,6 +109,10 @@ public class FlightItineraryManager extends ApplicationWindow
         jLabel4 = new javax.swing.JLabel();
         Cadastrar = new javax.swing.JButton();
         Apagar = new javax.swing.JButton();
+        btnBuscar = new javax.swing.JButton();
+        panelResultado = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblResultado = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -129,6 +179,13 @@ public class FlightItineraryManager extends ApplicationWindow
             }
         });
 
+        btnBuscar.setText("Listar Todos");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -158,6 +215,8 @@ public class FlightItineraryManager extends ApplicationWindow
                         .addComponent(Cadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(Apagar, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -179,8 +238,9 @@ public class FlightItineraryManager extends ApplicationWindow
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Cadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Apagar, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(132, 132, 132))
+                    .addComponent(Apagar, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
@@ -188,14 +248,47 @@ public class FlightItineraryManager extends ApplicationWindow
         jPanel14Layout.setHorizontalGroup(
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel14Layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap(118, Short.MAX_VALUE))
         );
         jPanel14Layout.setVerticalGroup(
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel14Layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel14Layout.createSequentialGroup()
+                .addGap(0, 11, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        panelResultado.setBorder(javax.swing.BorderFactory.createTitledBorder("Resultado da Busca"));
+
+        tblResultado.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(tblResultado);
+
+        javax.swing.GroupLayout panelResultadoLayout = new javax.swing.GroupLayout(panelResultado);
+        panelResultado.setLayout(panelResultadoLayout);
+        panelResultadoLayout.setHorizontalGroup(
+            panelResultadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelResultadoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1)
+                .addContainerGap())
+        );
+        panelResultadoLayout.setVerticalGroup(
+            panelResultadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelResultadoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -204,14 +297,19 @@ public class FlightItineraryManager extends ApplicationWindow
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(panelResultado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(panelResultado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -277,18 +375,42 @@ public class FlightItineraryManager extends ApplicationWindow
         // TODO add your handling code here:
     }//GEN-LAST:event_itiTxtCodigoActionPerformed
 
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        try
+        {
+            ArrayList<Itinerary> resultado = this.itineraryDao.read();
+
+            DefaultTableModel tabela = (DefaultTableModel) tblResultado.getModel();
+
+            while(tabela.getRowCount() > 0){
+                tabela.removeRow(0);
+            }
+
+            for(Itinerary r : resultado){
+                tabela.addRow(new Object[]{
+                    r.getCode(), r.getDeparture(), r.getDestination(), r.getDuration()
+                });
+            }
+
+            panelResultado.setVisible(true);
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(FlightMainView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
     public static void main(String args[]) 
     {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FlightItineraryManager().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new FlightItineraryManager().setVisible(true);
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Apagar;
     private javax.swing.JButton Cadastrar;
+    private javax.swing.JButton btnBuscar;
     private javax.swing.JTextField itiTxtCodigo;
     private javax.swing.JTextField itiTxtDestino;
     private javax.swing.JTextField itiTxtDuracao;
@@ -302,5 +424,8 @@ public class FlightItineraryManager extends ApplicationWindow
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPanel panelResultado;
+    private javax.swing.JTable tblResultado;
     // End of variables declaration//GEN-END:variables
 }
