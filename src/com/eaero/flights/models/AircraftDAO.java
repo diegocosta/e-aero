@@ -78,7 +78,7 @@ public class AircraftDAO extends DataAccessObject {
     }
 
     public void update(Aircraft item) throws SQLException {
-        try(PreparedStatement stmt = this.query("UPDATE " + this.table + " code=?, seats=?, company_id=?, seatsFirstClass=? WHERE id = ?")) 
+        try(PreparedStatement stmt = this.query("UPDATE " + this.table + " SET code=?, seats=?, company_id=?, seatsFirstClass=? WHERE id = ?")) 
         {
             stmt.setString(1, item.getCode());
             stmt.setInt(2,item.getSeats());
