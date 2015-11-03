@@ -26,6 +26,7 @@ package com.eaero.tickets.views;
 
 import com.eaero.ApplicationWindow;
 import com.eaero.clients.views.ClientView;
+import com.eaero.clients.models.ClientDAO;
 import com.eaero.tickets.TicketResume;
 import com.eaero.tickets.models.NoteDAO;
 import com.eaero.tickets.models.TicketDAO;
@@ -41,6 +42,7 @@ public class TicketDetailView extends ApplicationWindow
     private TicketResumeDAO ticketResumeDAO = new TicketResumeDAO();
     private TicketDAO ticketDAO = new TicketDAO();
     private NoteDAO noteDAO = new NoteDAO();
+    private ClientDAO clientDAO = new ClientDAO();
     
     private TicketResume resume = new TicketResume();
     

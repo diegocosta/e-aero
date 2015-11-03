@@ -295,7 +295,7 @@ public class FlightAircraftManager extends ApplicationWindow {
                 JOptionPane.showMessageDialog(null, "Voo foi apagado", "", JOptionPane.INFORMATION_MESSAGE);
                 
             } catch (SQLException ex) {
-                Logger.getLogger(FlightManager.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(FlightAircraftManager.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_btnExcluirActionPerformed
