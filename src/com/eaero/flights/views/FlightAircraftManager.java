@@ -370,10 +370,8 @@ public class FlightAircraftManager extends ApplicationWindow {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FlightAircraftManager().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new FlightAircraftManager().setVisible(true);
         });
     }
 
