@@ -26,6 +26,7 @@ package com.eaero.flights.models;
 
 import com.eaero.flights.FlightResume;
 import com.eaero.DataAccessObject;
+import com.eaero.flights.Flight;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -107,4 +108,65 @@ public class FlightResumeDAO extends DataAccessObject {
         return (result.size() > 0) ? result.get(0) : null;
     }
     
+    public ArrayList<FlightResume> getRes() throws SQLException
+    {
+        ArrayList<FlightResume> list = new ArrayList<>();
+        
+        try(PreparedStatement stms = this.query(sqlBase)){
+            
+            ResultSet result = stms.executeQuery();
+            
+            while(result.next())
+           {
+                FlightResume resume = new FlightResume();
+                resume.setFlightId(result.getInt("flight_id"));
+                resume.setFlightHour(result.getTime("flight_hour"));
+                resume.setFlightCost(result.getDouble("flight_cost"));
+                resume.setFlightDate(result.getDate("flight_date"));
+                resume.setAircraftId(result.getInt("aircraft_id"));
+                resume.setAircraftCode(result.getString("aircraft_code"));
+                resume.setAircraftSeats(result.getInt("aircraft_seats"));
+                resume.setAircraftSeatsFistClass(result.getInt("aircraft_firstclass"));
+                resume.setCompanyId(result.getInt("company_id"));
+                resume.setCompanyName(result.getString("company_name"));
+                resume.setItineraryID(result.getInt("itinerary_id"));
+                resume.setItineraryCode(result.getString("itinerary_code"));
+                resume.setItineraryDeparture(result.getString("itinerary_departure"));
+                resume.setItineraryDestination(result.getString("itinerary_destination"));
+                resume.setItineraryDuration(result.getDouble("itinerary_duration"));
+                resume.setRoutineId(result.getInt("routine_id"));
+                resume.setRoutineDays(result.getString("routine_days"));
+                resume.setTicketsSale(result.getInt("tickets_sale"));
+                resume.setTicketsSaleFirstClass(result.getInt("tickets_sale_firstclass"));
+                
+                list.add(resume);
+           }
+            stms.close();
+        }
+        return list;
+    }
+    private ArrayList<Flight> toList(ResultSet resultset) throws SQLException{
+        ArrayList<Flight> list = new ArrayList<>();
+        
+        while(resultset.next()) {
+            Flight item= new Flight();
+            item.setId(resultset.getInt("id"));
+                       
+            list.add(item);
+        }
+        
+        resultset.close();
+        
+        return list;
+    }
+    public ArrayList<Flight> read() throws SQLException {
+        ArrayList<Flight> aircraft;
+        try (PreparedStatement stmt = this.query("SELECT * FROM aircrafts " )) 
+        {
+            ResultSet rs = stmt.executeQuery();
+            aircraft = this.toList(rs);
+        }
+        
+        return aircraft;
+    }
 }

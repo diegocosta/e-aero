@@ -25,26 +25,54 @@ package com.eaero.flights.views;
 
 import com.eaero.ApplicationWindow;
 import com.eaero.flights.Aircraft;
+import com.eaero.flights.FlightResume;
 import com.eaero.flights.models.AircraftDAO;
+import com.eaero.flights.models.FlightResumeDAO;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 
 
 
 public class FlightAircraftManager extends ApplicationWindow {
 
-    
+   
     public Aircraft aircraft;
     public AircraftDAO aircraftDao = new AircraftDAO();
-    /**
-     * Creates new form FlightAircraftManager
-     */
+    
+    public FlightResumeDAO flightResumeDAO = new FlightResumeDAO();
+    
     public FlightAircraftManager() {
-        super("asd");
+        super("Avião");
         initComponents();
+        Table();
+    }
+    
+    public void Table() {
+        DefaultTableModel tabela = (DefaultTableModel) tblResult.getModel();
+
+        while (tabela.getRowCount() > 0) {
+            tabela.removeRow(0);
+        }
+
+        try {
+
+            ArrayList<FlightResume> result = this.flightResumeDAO.getRes();
+
+            result.stream().forEach((item) -> {
+                tabela.addRow(new Object[]{
+                    item.getAircraftId(), item.getAircraftCode(), item.getAircraftSeats(), item.getAircraftSeatsFistClass()
+                     
+                });
+            });
+
+        } catch (SQLException ex) {
+            Logger.getLogger(FlightAircraftManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -55,19 +83,21 @@ public class FlightAircraftManager extends ApplicationWindow {
         jLabel30 = new javax.swing.JLabel();
         jLabel31 = new javax.swing.JLabel();
         jPanel14 = new javax.swing.JPanel();
-        jLabel32 = new javax.swing.JLabel();
         panelInformation = new javax.swing.JPanel();
-        btnAcao = new javax.swing.JButton();
-        jPanel9 = new javax.swing.JPanel();
+        txtCodigo = new javax.swing.JTextField();
+        jLabel32 = new javax.swing.JLabel();
+        btnConsult = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblResult = new javax.swing.JTable();
+        painel = new javax.swing.JPanel();
         txtClasseEconomica = new javax.swing.JTextField();
-        jLabel36 = new javax.swing.JLabel();
-        jLabel40 = new javax.swing.JLabel();
+        jLabel48 = new javax.swing.JLabel();
+        jLabel49 = new javax.swing.JLabel();
+        jLabel50 = new javax.swing.JLabel();
         txtPrimeiraClasse = new javax.swing.JTextField();
         txtCode = new javax.swing.JTextField();
-        jLabel37 = new javax.swing.JLabel();
+        btnAcao = new javax.swing.JButton();
         btnExcluir = new javax.swing.JButton();
-        txtCodigo = new javax.swing.JTextField();
-        btnConsult = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -104,9 +134,90 @@ public class FlightAircraftManager extends ApplicationWindow {
 
         jPanel14.setBackground(new java.awt.Color(239, 239, 239));
 
+        panelInformation.setBackground(new java.awt.Color(239, 239, 239));
+
         jLabel32.setText("Informe o código do Voo");
 
-        panelInformation.setBackground(new java.awt.Color(239, 239, 239));
+        btnConsult.setText("Continuar");
+        btnConsult.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConsultActionPerformed(evt);
+            }
+        });
+
+        tblResult.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Id", "Codigo", "Assentos Economico", "Assentos Primeira Classe"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.Object.class, java.lang.Double.class, java.lang.Object.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(tblResult);
+
+        painel.setBorder(javax.swing.BorderFactory.createTitledBorder("Voo"));
+
+        jLabel48.setText("Assentos Classe Economica");
+
+        jLabel49.setText("Hora");
+
+        jLabel50.setText("Codigo Aeronave");
+
+        javax.swing.GroupLayout painelLayout = new javax.swing.GroupLayout(painel);
+        painel.setLayout(painelLayout);
+        painelLayout.setHorizontalGroup(
+            painelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(painelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(painelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtClasseEconomica, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel48))
+                .addGap(38, 38, 38)
+                .addGroup(painelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtPrimeiraClasse, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel49))
+                .addGap(29, 29, 29)
+                .addGroup(painelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel50)
+                    .addComponent(txtCode, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        painelLayout.setVerticalGroup(
+            painelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painelLayout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addGroup(painelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel48)
+                    .addComponent(jLabel49)
+                    .addComponent(jLabel50))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(painelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtClasseEconomica, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPrimeiraClasse, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtCode, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
 
         btnAcao.setText("Ação");
         btnAcao.addActionListener(new java.awt.event.ActionListener() {
@@ -114,55 +225,6 @@ public class FlightAircraftManager extends ApplicationWindow {
                 btnAcaoActionPerformed(evt);
             }
         });
-
-        jPanel9.setBorder(javax.swing.BorderFactory.createTitledBorder("Avião"));
-
-        jLabel36.setText("Assentos Classe Economica");
-
-        jLabel40.setText("Assentos Primeira Classe");
-
-        jLabel37.setText("Codigo Aeronave");
-
-        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
-        jPanel9.setLayout(jPanel9Layout);
-        jPanel9Layout.setHorizontalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel9Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel9Layout.createSequentialGroup()
-                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel36)
-                            .addComponent(txtClasseEconomica, javax.swing.GroupLayout.PREFERRED_SIZE, 342, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
-                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel40)
-                            .addComponent(txtPrimeiraClasse, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(35, 35, 35))
-                    .addGroup(jPanel9Layout.createSequentialGroup()
-                        .addComponent(txtCode, javax.swing.GroupLayout.PREFERRED_SIZE, 342, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel9Layout.createSequentialGroup()
-                        .addComponent(jLabel37)
-                        .addGap(0, 0, Short.MAX_VALUE))))
-        );
-        jPanel9Layout.setVerticalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel36)
-                    .addComponent(jLabel40))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtClasseEconomica, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtPrimeiraClasse, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
-                .addComponent(jLabel37)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtCode, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
 
         btnExcluir.setText("Excluir");
         btnExcluir.addActionListener(new java.awt.event.ActionListener() {
@@ -176,66 +238,56 @@ public class FlightAircraftManager extends ApplicationWindow {
         panelInformationLayout.setHorizontalGroup(
             panelInformationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelInformationLayout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(panelInformationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelInformationLayout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 686, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                        .addComponent(btnConsult))
+                    .addComponent(jScrollPane1)
+                    .addComponent(painel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(panelInformationLayout.createSequentialGroup()
-                        .addGap(48, 48, 48)
-                        .addComponent(btnAcao, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(40, 40, 40)
-                        .addComponent(btnExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(30, Short.MAX_VALUE))
+                        .addGroup(panelInformationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel32)
+                            .addGroup(panelInformationLayout.createSequentialGroup()
+                                .addGap(44, 44, 44)
+                                .addComponent(btnAcao, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(40, 40, 40)
+                                .addComponent(btnExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         panelInformationLayout.setVerticalGroup(
             panelInformationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelInformationLayout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel32)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panelInformationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnConsult, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(painel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(panelInformationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnAcao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(24, 24, 24))
+                    .addComponent(btnExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
-
-        btnConsult.setText("Continuar");
-        btnConsult.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnConsultActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
         jPanel14.setLayout(jPanel14Layout);
         jPanel14Layout.setHorizontalGroup(
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel14Layout.createSequentialGroup()
-                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel14Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(panelInformation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel14Layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel32)
-                            .addGroup(jPanel14Layout.createSequentialGroup()
-                                .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 686, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnConsult)
-                                .addGap(8, 8, 8)))))
+                .addContainerGap()
+                .addComponent(panelInformation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 10, Short.MAX_VALUE))
         );
         jPanel14Layout.setVerticalGroup(
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel14Layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addComponent(jLabel32)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnConsult, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel14Layout.createSequentialGroup()
                 .addComponent(panelInformation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -260,87 +312,79 @@ public class FlightAircraftManager extends ApplicationWindow {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnConsultActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultActionPerformed
+       
+        if (!txtCodigo.getText().equals("")) {
+            
+            try {
+
+               this.aircraft = this.aircraftDao.findById(Integer.parseInt(txtCodigo.getText()));
+       
+                if (this.aircraft == null) {
+                    
+                    JOptionPane.showMessageDialog(null, "Não encontrado");
+                    txtClasseEconomica.setText("");
+                    txtPrimeiraClasse.setText("");
+                    txtCode.setText("");
+                    txtCodigo.setText("");
+                    
+                }else{
+
+                    txtClasseEconomica.setText(String.valueOf(this.aircraft.getSeats()));
+                    txtPrimeiraClasse.setText(String.valueOf(this.aircraft.getSeatsFirstClass()));
+                    txtCode.setText(String.valueOf(this.aircraft.getCode()));
+                    btnAcao.setText("Atualizar");
+
+                }
+
+            } catch (SQLException ex) {
+                System.out.println("Erro de SQL" + ex.getMessage());
+            }
+        }
+       
+    }//GEN-LAST:event_btnConsultActionPerformed
+
     private void btnAcaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAcaoActionPerformed
-        Aircraft novoAir = new Aircraft();
-        
-        novoAir.setSeats(Integer.parseInt(txtClasseEconomica.getText()));
-        novoAir.setSeatsFirstClass(Integer.parseInt(txtPrimeiraClasse.getText()));
-        novoAir.setCode(txtCode.getText());
-        
-        try {
-            if(this.aircraft == null)
-            {
-                this.aircraftDao.create(novoAir);
-                JOptionPane.showMessageDialog(null, "Avião", "Cadastrado", JOptionPane.INFORMATION_MESSAGE);
-            }
-            else
-            {
-                novoAir.setId(this.aircraft.getId());
-                this.aircraftDao.update(novoAir);
-                JOptionPane.showMessageDialog(null, "Avião", "Atualizado", JOptionPane.INFORMATION_MESSAGE);
-            }
-        }
-        catch (SQLException ex)
-        {
+
+       
+        Aircraft novoAircraft = new Aircraft();
+        novoAircraft.setSeats(Integer.parseInt(txtClasseEconomica.getText()));
+        novoAircraft.setSeatsFirstClass(Integer.parseInt(txtPrimeiraClasse.getText()));
+        novoAircraft.setCode(txtCode.getText());
+
+        try{
+           
+                novoAircraft.setId(this.aircraft.getId());
+                this.aircraftDao.update(novoAircraft);
+                JOptionPane.showMessageDialog(null, "Atualizado");
+            
+        }catch(SQLException ex){
+            
             Logger.getLogger(FlightAircraftManager.class.getName()).log(Level.SEVERE, null, ex);
+            
         }
+
     }//GEN-LAST:event_btnAcaoActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
-        if(JOptionPane.showConfirmDialog(null, "Você quer apagar o voo " + this.aircraft + "?", "Atenção", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == 0)
+
+       if(JOptionPane.showConfirmDialog(null, "Você quer apagar o voo " + this.aircraft + "?", "Atenção", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == 0)
         {
             try {
                 this.aircraftDao.delete(this.aircraftDao.findById(Integer.parseInt(txtCodigo.getText())));
                 
                 JOptionPane.showMessageDialog(null, "Voo foi apagado", "", JOptionPane.INFORMATION_MESSAGE);
                 
-            } catch (SQLException ex) {
+            }catch(SQLException ex) {
+                
                 Logger.getLogger(FlightAircraftManager.class.getName()).log(Level.SEVERE, null, ex);
+                
             }
         }
+        txtClasseEconomica.setText("");
+        txtPrimeiraClasse.setText("");
+        txtCode.setText("");
     }//GEN-LAST:event_btnExcluirActionPerformed
-
-    private void btnConsultActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultActionPerformed
-        this.aircraft = new Aircraft();
-        
-        try{
-           this.aircraft = this.aircraftDao.findById(Integer.parseInt(txtCodigo.getText()));
-           
-           if(this.aircraft == null){
-               System.out.println("Voo não encontrado");
-               
-               Aircraft novoAircraft = new Aircraft();
-               novoAircraft.setSeats(Integer.parseInt(txtClasseEconomica.getText()));
-               novoAircraft.setSeatsFirstClass(Integer.parseInt(txtPrimeiraClasse.getText()));
-               novoAircraft.setCode(txtCode.getText());
-               
-               
-            this.aircraftDao.create(novoAircraft);
-             
-               System.out.println("Voo cadastrado");
-               
-               txtClasseEconomica.setText("");
-               txtPrimeiraClasse.setText("");
-               txtCode.setText("");
-                                            
-           }else{
-               
-               
-               System.out.println("Voo encontrado:\nCodigo:" +this.aircraft.getCode() +"\n:Id "+this.aircraft.getId());
-                                   
-                
-               txtClasseEconomica.setText(String.valueOf(aircraft.getSeats()));
-               txtPrimeiraClasse.setText(String.valueOf(this.aircraft.getSeatsFirstClass()));
-               txtCode.setText(String.valueOf(this.aircraft.getCode()));
-                            
-           }    
-           
-        } catch (SQLException ex) {
-            Logger.getLogger(FlightAircraftManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-       
-    }//GEN-LAST:event_btnConsultActionPerformed
 
     /**
      * @param args the command line arguments
@@ -382,13 +426,15 @@ public class FlightAircraftManager extends ApplicationWindow {
     private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
-    private javax.swing.JLabel jLabel36;
-    private javax.swing.JLabel jLabel37;
-    private javax.swing.JLabel jLabel40;
+    private javax.swing.JLabel jLabel48;
+    private javax.swing.JLabel jLabel49;
+    private javax.swing.JLabel jLabel50;
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
-    private javax.swing.JPanel jPanel9;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPanel painel;
     private javax.swing.JPanel panelInformation;
+    private javax.swing.JTable tblResult;
     private javax.swing.JTextField txtClasseEconomica;
     private javax.swing.JTextField txtCode;
     private javax.swing.JTextField txtCodigo;
